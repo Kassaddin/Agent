@@ -1,0 +1,17 @@
+{
+  "name": "agent",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "ai",
+    "agent",
+    "harness"
+  ],
+  "license": "ISC",
+  "author": "Sasha Pichkurov",
+  "type": "typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
