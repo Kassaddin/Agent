@@ -1,0 +1,3 @@
+interface:
+  display_name: "Smokes"
+  short_description: "Audit artifacts and report actionable findings"

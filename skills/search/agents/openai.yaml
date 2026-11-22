@@ -1,0 +1,3 @@
+interface:
+  display_name: "Search"
+  short_description: "Quietly find evidence in approved sources"

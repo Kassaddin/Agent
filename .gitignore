@@ -1,0 +1,41 @@
+# Project-specific access configuration and working records
+/BOUNDARIES.yaml
+/CONTEXT.md
+/DISCUSSION*.md
+/context/
+/reports/
+
+# Generated share packages
+/dist/
+
+# Python caches, test outputs, and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
+
+# Dependency folders
+node_modules/
+
+# Local secrets; keep example configuration shareable
+.env
+.env.*
+!.env.example
+
+# Local editor settings and temporary files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo

@@ -1,0 +1,62 @@
+# Draft only. Replace example values through the Init interview before activation.
+schema_version: 1
+state: draft
+
+project:
+  name: "Project name"
+  primary_local_id: project
+
+defaults:
+  unmatched_resource: ask
+  unmatched_operation: ask
+
+conversation:
+  answer_or_explain: act
+  investigate_within_scope: act
+  implement_when_requested: act
+  implement_during_analysis_only: never
+  expand_task_scope: ask
+  delegate_work: ask
+
+resources:
+  local:
+    - id: project
+      path: "/replace/with/project"
+      kind: directory
+      role: project
+      recursive: true
+      permissions:
+        read: act
+        create: act
+        modify: act
+        delete: ask
+        execute: ask
+  remote: []
+
+version_control:
+  system: git
+  workflow: local_current_branch
+  unmapped_mutations: user_only
+  operations:
+    inspect: act
+    stage_changes: user_only
+    record_changes: user_only
+    create_branch: never
+    create_worktree: user_only
+    switch_revision: user_only
+    retrieve_remote_changes: user_only
+    integrate_changes: user_only
+    rewrite_local_history: user_only
+    discard_local_changes: user_only
+    remove_untracked_files: user_only
+    reset: user_only
+    publish_changes: user_only
+    overwrite_remote_history: user_only
+    change_configuration: user_only
+    create_pull_request: never
+
+approvals:
+  notify_queued_changes: true
+  offer_remote_trust_after_approval: true
+  policy_changes_require_review: true
+  allow_read_only_search_worker: false

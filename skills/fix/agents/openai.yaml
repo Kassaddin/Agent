@@ -1,0 +1,5 @@
+interface:
+  display_name: "Fix"
+  short_description: "Resolve reported issues and verify corrections"
+policy:
+  allow_implicit_invocation: false

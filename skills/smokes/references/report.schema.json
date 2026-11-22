@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Smokes report version 1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "report_id", "created_at", "scope", "summary", "coverage", "findings"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "report_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requested", "boundaries_file", "boundaries_sha256", "snapshots"],
+      "properties": {
+        "requested": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "boundaries_file": {"type": "string", "minLength": 1},
+        "boundaries_sha256": {"$ref": "#/$defs/hash"},
+        "snapshots": {"type": "array", "items": {"$ref": "#/$defs/snapshot"}}
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total", "confirmed", "needs_review", "by_severity", "by_priority", "audit_status"],
+      "properties": {
+        "total": {"type": "integer"}, "confirmed": {"type": "integer"}, "needs_review": {"type": "integer"},
+        "audit_status": {"enum": ["complete", "partial", "blocked"]},
+        "by_severity": {
+          "type": "object", "additionalProperties": false,
+          "required": ["critical", "high", "medium", "low"],
+          "properties": {"critical": {"type": "integer"}, "high": {"type": "integer"}, "medium": {"type": "integer"}, "low": {"type": "integer"}}
+        },
+        "by_priority": {
+          "type": "object", "additionalProperties": false,
+          "required": ["P0", "P1", "P2", "P3"],
+          "properties": {"P0": {"type": "integer"}, "P1": {"type": "integer"}, "P2": {"type": "integer"}, "P3": {"type": "integer"}}
+        }
+      }
+    },
+    "coverage": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/coverage"}},
+    "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "location": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "line", "section"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "line": {"type": ["integer", "null"]}, "section": {"type": ["string", "null"]}}
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "line", "kind", "text"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "line": {"type": ["integer", "null"]}, "kind": {"enum": ["source_excerpt", "observation"]}, "text": {"type": "string", "minLength": 1}}
+    },
+    "snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "state", "sha256", "bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "state": {"enum": ["read", "missing", "blocked", "unsupported"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "bytes": {"type": ["integer", "null"]}
+      }
+    },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["check_id", "status", "paths", "reason"],
+      "properties": {
+        "check_id": {"type": "string", "minLength": 1},
+        "status": {"enum": ["complete", "partial", "skipped", "blocked", "unsupported"]},
+        "paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "reason": {"type": "string"}
+      }
+    },
+    "finding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "fingerprint", "check_id", "category", "certainty", "severity", "priority", "title", "locations", "evidence", "impact", "proposed_fix", "acceptance_check", "depends_on", "remediation"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^SMK-[0-9]{3,}$"},
+        "fingerprint": {"$ref": "#/$defs/hash"},
+        "check_id": {"type": "string", "minLength": 1},
+        "category": {"enum": ["integrity", "structure", "cross_link", "duplication", "ambiguity", "contradiction", "consistency"]},
+        "certainty": {"enum": ["confirmed", "needs_review"]},
+        "severity": {"enum": ["critical", "high", "medium", "low"]},
+        "priority": {"enum": ["P0", "P1", "P2", "P3"]},
+        "title": {"type": "string", "minLength": 1},
+        "locations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/location"}},
+        "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+        "impact": {"type": "string", "minLength": 1},
+        "proposed_fix": {"type": "string", "minLength": 1},
+        "acceptance_check": {"type": "string", "minLength": 1},
+        "depends_on": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^SMK-[0-9]{3,}$"}},
+        "remediation": {
+          "type": "object", "additionalProperties": false,
+          "required": ["mode", "reason"],
+          "properties": {"mode": {"enum": ["agent_candidate", "user_action", "decision_required"]}, "reason": {"type": "string", "minLength": 1}}
+        }
+      }
+    }
+  }
+}

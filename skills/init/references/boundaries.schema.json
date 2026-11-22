@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project boundaries version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "state", "project", "defaults", "conversation", "resources", "version_control", "approvals"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "state": {"enum": ["draft", "active"]},
+    "project": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "primary_local_id"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "primary_local_id": {"$ref": "#/$defs/id"}
+      }
+    },
+    "defaults": {
+      "type": "object", "additionalProperties": false,
+      "required": ["unmatched_resource", "unmatched_operation"],
+      "properties": {
+        "unmatched_resource": {"$ref": "#/$defs/decision"},
+        "unmatched_operation": {"$ref": "#/$defs/decision"}
+      }
+    },
+    "conversation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["answer_or_explain", "investigate_within_scope", "implement_when_requested", "implement_during_analysis_only", "expand_task_scope", "delegate_work"],
+      "properties": {
+        "answer_or_explain": {"$ref": "#/$defs/decision"},
+        "investigate_within_scope": {"$ref": "#/$defs/decision"},
+        "implement_when_requested": {"$ref": "#/$defs/decision"},
+        "implement_during_analysis_only": {"$ref": "#/$defs/decision"},
+        "expand_task_scope": {"$ref": "#/$defs/decision"},
+        "delegate_work": {"$ref": "#/$defs/decision"}
+      }
+    },
+    "resources": {
+      "type": "object", "additionalProperties": false,
+      "required": ["local", "remote"],
+      "properties": {
+        "local": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/local"}},
+        "remote": {"type": "array", "items": {"$ref": "#/$defs/remote"}}
+      }
+    },
+    "version_control": {
+      "type": "object", "additionalProperties": false,
+      "required": ["system", "workflow", "unmapped_mutations", "operations"],
+      "properties": {
+        "system": {"enum": ["git", "mercurial", "svn", "other", "none"]},
+        "workflow": {"enum": ["local_current_branch", "explicit_operations"]},
+        "unmapped_mutations": {"$ref": "#/$defs/vcsDecision"},
+        "operations": {
+          "type": "object", "additionalProperties": false,
+          "required": ["inspect", "stage_changes", "record_changes", "create_branch", "create_worktree", "switch_revision", "retrieve_remote_changes", "integrate_changes", "rewrite_local_history", "discard_local_changes", "remove_untracked_files", "reset", "publish_changes", "overwrite_remote_history", "change_configuration", "create_pull_request"],
+          "properties": {
+            "inspect": {"$ref": "#/$defs/decision"},
+            "stage_changes": {"$ref": "#/$defs/vcsDecision"},
+            "record_changes": {"$ref": "#/$defs/vcsDecision"},
+            "create_branch": {"$ref": "#/$defs/vcsDecision"},
+            "create_worktree": {"$ref": "#/$defs/vcsDecision"},
+            "switch_revision": {"$ref": "#/$defs/vcsDecision"},
+            "retrieve_remote_changes": {"$ref": "#/$defs/vcsDecision"},
+            "integrate_changes": {"$ref": "#/$defs/vcsDecision"},
+            "rewrite_local_history": {"$ref": "#/$defs/vcsDecision"},
+            "discard_local_changes": {"$ref": "#/$defs/vcsDecision"},
+            "remove_untracked_files": {"$ref": "#/$defs/vcsDecision"},
+            "reset": {"$ref": "#/$defs/vcsDecision"},
+            "publish_changes": {"$ref": "#/$defs/vcsDecision"},
+            "overwrite_remote_history": {"$ref": "#/$defs/vcsDecision"},
+            "change_configuration": {"$ref": "#/$defs/vcsDecision"},
+            "create_pull_request": {"$ref": "#/$defs/vcsDecision"}
+          }
+        }
+      }
+    },
+    "approvals": {
+      "type": "object", "additionalProperties": false,
+      "required": ["notify_queued_changes", "offer_remote_trust_after_approval", "policy_changes_require_review"],
+      "properties": {
+        "notify_queued_changes": {"type": "boolean"},
+        "offer_remote_trust_after_approval": {"type": "boolean"},
+        "policy_changes_require_review": {"type": "boolean"},
+        "allow_read_only_search_worker": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "decision": {"enum": ["act", "ask", "never"]},
+    "vcsDecision": {"enum": ["act", "ask", "never", "user_only"]},
+    "timestamp": {"type": ["string", "null"], "minLength": 1},
+    "local": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "path", "kind", "role", "recursive", "permissions"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "path": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["directory", "file"]},
+        "role": {"enum": ["project", "repository", "obsidian_vault", "reference", "other"]},
+        "recursive": {"type": "boolean"},
+        "permissions": {
+          "type": "object", "additionalProperties": false,
+          "required": ["read", "create", "modify", "delete", "execute"],
+          "properties": {
+            "read": {"$ref": "#/$defs/decision"},
+            "create": {"$ref": "#/$defs/decision"},
+            "modify": {"$ref": "#/$defs/decision"},
+            "delete": {"$ref": "#/$defs/decision"},
+            "execute": {"$ref": "#/$defs/decision"}
+          }
+        }
+      }
+    },
+    "remote": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "url", "kind", "local_ids", "requested_mode", "effective_mode", "access", "write_approval", "trust_granted_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "url": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["git_repository", "version_control_repository", "obsidian_service", "document_store", "other"]},
+        "local_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "requested_mode": {"enum": ["read", "write"]},
+        "effective_mode": {"enum": ["none", "read", "write"]},
+        "access": {
+          "type": "object", "additionalProperties": false,
+          "required": ["capability", "status", "visibility", "checked_at", "reason"],
+          "properties": {
+            "capability": {"enum": ["none", "read", "write", "unknown"]},
+            "status": {"enum": ["unchecked", "ready", "limited", "unavailable"]},
+            "visibility": {"enum": ["public", "private", "unknown"]},
+            "checked_at": {"$ref": "#/$defs/timestamp"},
+            "reason": {"type": ["string", "null"], "minLength": 1}
+          }
+        },
+        "write_approval": {"enum": ["ask_each_time", "trusted_for_source"]},
+        "trust_granted_at": {"$ref": "#/$defs/timestamp"}
+      }
+    }
+  }
+}
