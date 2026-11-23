@@ -34,12 +34,20 @@ Inside the selected agent area, use:
 | Purpose | Relative location |
 | --- | --- |
 | Access policy | `config/BOUNDARIES.yaml` |
+| Project-authored skills | `local-skills/<name>/` or an explicitly selected host location outside managed/operational areas |
 | Project agent guidance | `instructions.md` |
 | Derived context | `context/project.md`, `context/index.yaml`, optional `context/areas/` |
 | One checkpoint per topic | `state/checkpoints/<topic>.yaml` |
 | Authoritative structured reports | `reports/<workflow>/<run-id>/` |
 
 Human topic records and report destinations are references, not a second project manifest. Reuse existing guidance and Context's source/topic mappings. Pass an explicit human report destination when the host has one; otherwise use the kit's `docs/reports/<workflow>/<run-id>/` fallback.
+
+Project-authored skills normally use `<agent-area>/local-skills/`. Released
+kit packages remain in `<agent-area>/skills/`. Local skill content is outside the
+release inventory and is not adopted or replaced by Update. Creating those files
+does not register them with the host; discovery, host entry edits, personal
+installation, and promotion into a published kit are separate requested actions.
+Reuse an authorized compatible host location instead of migrating it.
 
 ## Checkpoints and reports
 

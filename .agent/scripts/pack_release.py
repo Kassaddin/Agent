@@ -14,7 +14,7 @@ import zipfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills/update/scripts"))
 from release_format import MANIFEST, make_manifest, json_bytes
 
-PACKAGES = ("backlog", "context", "fix", "glossary", "implement", "init", "refine", "search", "setup", "smokes", "to-document", "update")
+PACKAGES = ("backlog", "context", "create-skill", "fix", "glossary", "implement", "init", "refine", "search", "setup", "smokes", "to-document", "to-tasks", "update")
 EXCLUDED = {"__pycache__", ".pytest_cache", ".git", ".venv", "node_modules"}
 EXTENSIONS = {".md", ".yaml", ".yml", ".json", ".py", ".txt"}
 

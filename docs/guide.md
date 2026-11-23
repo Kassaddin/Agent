@@ -68,8 +68,10 @@ All skills follow the [shared question and assumption rules](../.agent/skills/in
 | `$refine` | A minimal yet complete baseline, or resolved assigned choices |
 | `$backlog` | Captured, deduplicated, source-linked out-of-scope topics in one project file |
 | `$implement` | Direct execution and verification of an agreed small-task Refine baseline |
+| `$create-skill` | Refined, approved, authored, and validated project-specific skills outside the managed kit |
 | `$search` | Located evidence with explicit coverage and limitations |
 | `$to-document` | A faithful document after substantive gaps are resolved |
+| `$to-tasks` | Bounded tasks traced to a documented scope and its agreed parent baseline |
 | `$smokes` | An actionable audit report without source corrections |
 | `$fix` | Verified corrections from a selected report, when explicitly called |
 | `$context` | Relevant source-linked project context, with freshness limits |
@@ -120,6 +122,49 @@ There is no mandatory document, audit, or correction sequence. Requested documen
 synthesis uses To Document; a requested audit uses Smokes; acting on its report
 uses Fix when explicitly called. Short implementations can finish with a concise
 chat result, without another specification or report file.
+
+## Split a documented idea into tasks
+
+Invoke `$to-tasks` when you want to split a document into functional or enabling
+blocks for later implementation. Reuse one agreed parent Refine baseline; new
+substantive choices return through bounded Refine. There is no automatic sequence
+from To Document to To Tasks or Implement, and task creation grants no execution
+authority.
+
+Each document gets a sibling `[document-name]-tasks` folder. Files start at `00`
+with distinct names and stable IDs. Explicit prerequisites determine dependencies.
+Every task has an outcome, scope and requirements, scope references, prerequisites,
+and acceptance criteria. Exclusions and verification constraints are optional.
+
+Scope references establish meaning and requirements, never permissions; current
+boundaries apply independently. Acceptance uses minimal verification; additional
+border-value and extreme-case testing is outside this flow. Existing records keep
+decisions and blockers rather than duplicating them in task files. Implement
+checks actual readiness and executes selected tasks only when requested.
+
+## Create a project-specific skill
+
+Use `$create-skill` to refine the idea and functionality of a local skill first.
+It presents the finalized scope and asks whether you agree to implement it.
+Yes continues through Implement; No leads to clarification and another Refine
+round when needed. Existing relevant refinement and an explicit implementation
+request for its presented scope are reused without another approval loop.
+
+New skills default to the selected agent area's `local-skills/<name>/` directory,
+normally `Agents/.agent/local-skills/<name>/` in an external project. This is
+separate from the release-managed `skills/` directory, so future kit updates do
+not own the local skill. An authorized compatible host location may be selected.
+
+The package includes an initializer, metadata generator, and read-only validator.
+The initializer previews by default; applying it creates a draft, not a finished
+skill. Complete its real instructions and references, validate the result, and
+run appropriate permitted checks. Existing folders and metadata are not replaced
+by the creation helpers; requested updates preserve unrelated fields and content.
+
+Files created in a project are not automatically installed or discoverable by
+the host. Registration, personal installation, entry-file edits, and publication
+remain separate actions. The variant retains the upstream license/attribution
+and omits optional icons; no binary-asset exception is needed for the kit.
 
 ## Read results and resume work
 
@@ -172,7 +217,7 @@ recursively deletes the host or silently reuses an occupied destination.
 
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v1.5.0`, then publish that same tag
+Build with an explicit tag such as `--version v1.7.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

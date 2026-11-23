@@ -1,0 +1,3 @@
+interface:
+  display_name: "To Tasks"
+  short_description: "Split documented scope into bounded implementation tasks"

@@ -15,6 +15,13 @@ Use [Glossary](../glossary/SKILL.md) to reuse the baseline's agreed terminology 
 
 Recover the relevant requirements, decisions, constraints, affected resources, and completion criteria from existing sources. Use Context Load when useful and [Search](../search/SKILL.md) for factual retrieval under its worker and access rules. Check current resource state before changing it; summaries and old checkpoints do not prove present state. Missing required contracts or dependencies block affected work; asking the user a question pauses the whole task under the boundary contract.
 
+A selected [To Tasks](../to-tasks/SKILL.md) brief may identify a bounded part of
+one agreed parent baseline. Reuse its scope references and acceptance criteria;
+check that prerequisites are actually satisfied and that the brief remains
+consistent with that baseline. Task creation or approval alone does not authorize
+execution. Use minimal checks against the agreed acceptance criteria; decomposition
+does not require additional border-value or extreme-case testing.
+
 ## Execute the agreed work
 
 Require an explicit implementation request for the agreed baseline, such as an Implement invocation or a clear request to carry it out. Agreement or Refine completion alone is not execution authorization. A current authorization needs no repeated blanket confirmation; notify changes and handle actual permission gates under the boundary contract. Never/user-only restrictions remain prohibitions.

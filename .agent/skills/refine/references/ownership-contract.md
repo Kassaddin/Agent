@@ -12,9 +12,11 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Glossary | Canonical definitions, aliases, and terminology agreement status |
 | Refine | Refinement process, decision rationale, and MVP baseline |
 | Implement | Authorized execution of agreed small-task baselines, verification evidence, and implementation outcomes |
+| Create Skill | Project-local skill authoring, supporting resources, and validation; host registration remains separate |
 | Backlog | Captured project backlog entries, their provenance, and capture/deduplication consistency |
 | Search | Retrieved evidence, verified locators, and retrieval coverage |
 | To Document | Document composition, faithful representation, and delivery completeness |
+| To Tasks | Task decomposition, task boundaries, requirement coverage, and dependency consistency |
 | Smokes | Audit findings, evidence, classifications, and coverage |
 | Fix | Authorized corrections, verification evidence, and correction outcomes |
 | Context | Derived project views, source index, and freshness information |

@@ -1,0 +1,14 @@
+Project-aware Create Skill
+
+Adapted from the Skill Creator system skill distributed with OpenAI Codex.
+The local upstream snapshot was captured on 2026-11-23. No upstream commit or
+package version is asserted. The original accompanying Apache License 2.0 text
+is retained verbatim in license.txt. Existing notices are retained where present.
+
+Modified files carry adaptation notices. Changes include project-local defaults,
+current boundary checks, exclusion of managed/personal destinations, exclusive
+scaffold and metadata creation, explicit UTF-8 handling, and scoped validation.
+Optional upstream icon assets and their UI references are omitted.
+
+This variant adds project_access.py and its behavioral tests. It does not modify
+the installed upstream system skill or imply upstream endorsement.

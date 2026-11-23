@@ -1,6 +1,6 @@
 # Glossary: Agent Skills
 
-Scope: Shared terminology of this project's twelve reusable skills: `setup`, `init`, `glossary`, `refine`, `backlog`, `implement`, `search`, `to-document`, `smokes`, `fix`, `context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
+Scope: Shared terminology of this project's fourteen reusable skills: `setup`, `init`, `glossary`, `refine`, `backlog`, `implement`, `create-skill`, `search`, `to-document`, `to-tasks`, `smokes`, `fix`, `context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
 
 Agreed terms reflect explicit discussion agreements or meanings already specified in the approved skill contracts. Proposed terms are definitions inferred from current usage; their labels or boundaries still need agreement. Operational procedures and project decisions remain in the skills and `BOUNDARIES.yaml`.
 
@@ -31,6 +31,12 @@ Source: [Refine](../.agent/skills/refine/SKILL.md#refine-ideas).
 A task with bounded scope, identifiable dependencies, and a result that can be verified directly against its agreed requirements.
 
 Source: Explicit user definition during Implement refinement on 2026-11-23; [accepted decision I2](topics/implement/decisions.md#i2-any-topic-with-criterion-based-suitability).
+
+#### Functional block
+
+A coherent part of the documented scope with a distinct functional or enabling outcome that can be verified once its prerequisites are satisfied.
+
+Sources: Explicit user agreement during To Tasks refinement on 2026-11-23; [accepted decision T2](topics/to-tasks/decisions.md#t2-functional-and-enabling-blocks), [To Tasks](../.agent/skills/to-tasks/SKILL.md#establish-scope-and-access).
 
 #### Substantive gap
 
@@ -288,6 +294,16 @@ Status values:
 Sources: [Fix verification](../.agent/skills/fix/SKILL.md#verify-and-account-for-every-finding), [Smokes Fix handoff](../.agent/skills/smokes/references/report-contract.md#fix-handoff-and-freshness).
 
 ## Proposed terms
+
+### Project-local authoring
+
+#### Project-local skill
+
+A project-specific skill stored outside the published kit's managed inventory.
+
+Needs agreement: This exact glossary wording remains proposed; the selected Create Skill workflow defines the operational destination and ownership.
+
+Source: [Create Skill](../.agent/skills/create-skill/SKILL.md#scope-and-destination).
 
 ### Deferred work
 

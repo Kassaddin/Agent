@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Skill"
+  short_description: "Refine and author project-specific skills"
+  default_prompt: "Use $create-skill to refine this project-local skill, then implement it after I approve the finalized scope."

@@ -1,7 +1,7 @@
 # Reusable Agent Skills
 
-Twelve reusable skills support kit installation, project setup, shared terminology, idea refinement, direct implementation, deferred-topic capture,
-evidence retrieval, document delivery, auditing, correction, and maintained
+Fourteen reusable skills support kit installation, project setup, shared terminology, idea refinement, direct implementation, deferred-topic capture, project-local skill authoring,
+evidence retrieval, document delivery, task decomposition, auditing, correction, and maintained
 project context.
 
 Start with the [installation and usage guide](docs/guide.md). The
@@ -36,7 +36,7 @@ schemas, templates, helpers, and tests travel with them.
 To rebuild the package using Python 3.10+:
 
 ```text
-python -B .agent/scripts/pack_release.py --project-root . --version v1.5.0
+python -B .agent/scripts/pack_release.py --project-root . --version v1.7.0
 ```
 
 This command writes only the generated ZIP and checksum under `releases/`.
