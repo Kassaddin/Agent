@@ -1,0 +1,16 @@
+schema_version: 1
+topic: example
+decision_record:
+  resource: project
+  path: docs/topics/example/decisions.md
+caller: refine
+objective: Replace with the active request.
+scope:
+  - Replace with the agreed scope.
+current_step: Decisions pending.
+handoff: null
+decision_refs: []
+blockers: []
+artifact_updates: []
+next_action: Resolve the next independent substantive choice.
+updated_at: '2000-01-01T00:00:00Z'

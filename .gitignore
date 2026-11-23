@@ -1,14 +1,25 @@
-# Project-specific access configuration and working records
+# Local agent configuration and operational state
+/.agent/config/
+/.agent/context/
+/.agent/state/
+/.agent/reports/
+
+# Preserve the private status of local discussion history and readable reports
+/docs/topics/
+/docs/reports/
+
+# Generated share packages
+/releases/
+
+# Legacy local state, retained only for compatibility with un-migrated projects
 /BOUNDARIES.yaml
 /CONTEXT.md
 /DISCUSSION*.md
 /context/
 /reports/
-
-# Generated share packages
 /dist/
 
-# Python caches, test outputs, and virtual environments
+# Python caches, test outputs, and environments
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -19,16 +30,14 @@ __pycache__/
 htmlcov/
 .venv/
 venv/
-
-# Dependency folders
 node_modules/
 
-# Local secrets; keep example configuration shareable
+# Local secrets; examples remain shareable
 .env
 .env.*
 !.env.example
 
-# Local editor settings and temporary files
+# Editor and temporary files
 .idea/
 .vscode/
 .DS_Store
