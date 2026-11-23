@@ -47,7 +47,7 @@ Take every unresolved substantive user choice through an assigned-choice Refine 
 
 Include verified evidence and Refine's resulting decisions in the source material, then recheck the brief, glossary, and all substantive gaps. Proceed to writing only when every substantive gap is closed. An agreed change to the brief may remove a requirement; do not silently narrow the scope to declare readiness.
 
-If a required dependency, source, authorization, or user decision remains unavailable, report the specific blocker and the next needed action. Continue independent permitted preparation when useful, and leave document drafting pending.
+If a required dependency, source, authorization, or user decision remains unavailable, report the specific blocker and the next needed action. Leave document drafting pending. If a user question has been posed, pause all task preparation as well until its answer or an explicitly authorized recommended-answer assumption resolves it under the boundary contract.
 
 ## Write a faithful, complete synthesis
 

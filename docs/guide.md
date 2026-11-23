@@ -54,6 +54,10 @@ dependency declaration is the Init package's `scripts/requirements.txt`. Regex
 search additionally needs ripgrep (`rg`). Install dependencies only when you
 choose to do so; extraction does not install or run anything.
 
+## Shared flow rules
+
+All skills follow the [shared question and assumption rules](../.agent/skills/init/references/boundary-contract.md#questions-and-assumed-answers) and [workflow economy rules](../.agent/skills/init/references/boundary-contract.md#workflow-economy). A user question pauses the whole task. Scoped permission to assume an answer selects its stated recommended option and requires an explicit session-end list of assumed answers and resolutions. These rules preserve existing access and version-control limits.
+
 ## Use the skills
 
 | Skill | Intended result |
@@ -62,6 +66,8 @@ choose to do so; extraction does not install or run anything.
 | `$init` | Approved, validated project access and engagement boundaries |
 | `$glossary` | Consistent terminology with agreement status preserved |
 | `$refine` | A minimal yet complete baseline, or resolved assigned choices |
+| `$backlog` | Captured, deduplicated, source-linked out-of-scope topics in one project file |
+| `$implement` | Direct execution and verification of an agreed small-task Refine baseline |
 | `$search` | Located evidence with explicit coverage and limitations |
 | `$to-document` | A faithful document after substantive gaps are resolved |
 | `$smokes` | An actionable audit report without source corrections |
@@ -79,6 +85,41 @@ location, pass the chosen agent area explicitly to helpers that need it.
 
 Existing host instructions are reused. Any integration pointer added to them
 requires an explicit, narrowly scoped change. The kit does not overwrite them.
+
+## Retain out-of-scope topics
+
+Invoke `$backlog` or `$refine` to enable capture in the current conversation for
+the selected project. Capture may then continue during free-form discussion until
+you stop it. It is not enabled across other conversations or by adopting the kit.
+
+Backlog reuses the project's designated file; otherwise it proposes Markdown in
+the reader area, normally `docs/backlog.md`. It captures clear deferrals without
+asking each time, asks when scope is unclear, and enriches equivalent entries
+instead of duplicating them. Entries retain a stable ID, description, exclusion
+reason, source, and user/agent origin. No file is needed until there is an item.
+
+Capturing is not approval or a commitment. Required dependencies remain blockers
+in the current workflow. This MVP does not prioritize or manage lifecycle. Write
+restrictions still apply; unavailable writes return unsaved entries. Backlog does
+not require a new specification, decision log, or report for each capture.
+
+## Implement a small task
+
+After agreeing a Refine baseline, request `$implement` to carry it out. The
+baseline can remain in the conversation. A small task has bounded scope,
+identifiable dependencies, and direct verification against its agreed
+requirements; there are no file, line, or duration thresholds.
+
+Implement works across topics within available tools and permissions. It checks
+current state, makes the agreed changes, and verifies the result. For a new
+substantive choice it prompts the user through a bounded Refine handoff and
+pauses the entire task until the answer or an explicitly authorized recommended-answer assumption resolves the question.
+Refine completion alone is not implementation authorization.
+
+There is no mandatory document, audit, or correction sequence. Requested document
+synthesis uses To Document; a requested audit uses Smokes; acting on its report
+uses Fix when explicitly called. Short implementations can finish with a concise
+chat result, without another specification or report file.
 
 ## Read results and resume work
 
@@ -131,7 +172,7 @@ recursively deletes the host or silently reuses an occupied destination.
 
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v1.2.0`, then publish that same tag
+Build with an explicit tag such as `--version v1.5.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

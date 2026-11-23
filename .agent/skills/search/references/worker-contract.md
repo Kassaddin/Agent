@@ -18,6 +18,8 @@ Before spawning, read the boundary contract and check conversation.delegate_work
 
 The default worker budget is 20 seconds of retrieval and at most 20 returned matches across its calls, with at most two narrow query reformulations. Pass remaining time/result limits to later helper calls; do not repeatedly reset them. Avoid one worker per source. Budget exhaustion returns partial evidence rather than silently launching more agents. The caller can request a larger or exhaustive search within permitted scope.
 
+The caller follows the [whole-task question gate](../../init/references/boundary-contract.md#questions-and-assumed-answers): do not launch or process retrieval while a user answer is outstanding. Pause controllable worker activity before prompting; already dispatched read-only results wait for the caller to resume.
+
 ## Matching and routing
 
 - Case-insensitive and literal by default. Explicit case-sensitive and regex requests are honored or reported unsupported by that adapter; never silently substituted.

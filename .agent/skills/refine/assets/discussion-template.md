@@ -32,6 +32,10 @@
 
 {{Unverified assumptions and suggestions that have not been accepted.}}
 
+## Answers selected under permission to assume
+
+{{Omit if none. Record each covered question, its stated recommended answer selected, the actual user authorization, and the effect or resolution. Label these as assumed answers, distinct from user-provided facts and explicitly agreed answers. The final session delivery lists every such answer and resolution; the checkpoint references this record instead of duplicating it.}}
+
 ## Open questions
 
 {{Meaningful unresolved questions, including dependencies where useful.}}

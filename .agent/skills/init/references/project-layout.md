@@ -8,6 +8,12 @@ This skill repository uses `.agent/` for agent files and `docs/` for readers. A 
 
 Reuse the host's glossary, topic records, and deliverable locations. Without an established suitable location, propose the kit's `docs/` area for new human artifacts. Create folders only when needed. Do not restructure host content, append host instructions, or overwrite existing files merely to adopt the kit. A minimal existing root `AGENTS.md` may point to dedicated guidance; any host integration change needs its own task authorization.
 
+A conversation-enabled backlog reuses the host's designated reader-facing file.
+Without a suitable host destination, Backlog proposes `docs/backlog.md` under the
+selected kit/repository root. It is project information, not released guidance or
+agent state. One project backlog links its originating topic records; placement
+does not enable capture or grant permissions.
+
 ## Discovery and paths
 
 An explicitly selected boundary file is authoritative. Otherwise inspect only these known bootstrap candidates within the selected project: `.agent/config/BOUNDARIES.yaml`, `Agents/.agent/config/BOUNDARIES.yaml`, and the legacy root `BOUNDARIES.yaml`. If several exist, require explicit selection; do not choose by permissiveness, validity, or modification time. A missing policy cannot grant access. Follow the boundary contract's bootstrap and validation rules.

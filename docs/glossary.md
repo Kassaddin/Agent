@@ -1,6 +1,6 @@
 # Glossary: Agent Skills
 
-Scope: Shared terminology of this project's ten reusable skills: `setup`, `init`, `glossary`, `refine`, `search`, `to-document`, `smokes`, `fix`, `context`, and `update`. Definitions apply to their access, discussion, document, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
+Scope: Shared terminology of this project's twelve reusable skills: `setup`, `init`, `glossary`, `refine`, `backlog`, `implement`, `search`, `to-document`, `smokes`, `fix`, `context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
 
 Agreed terms reflect explicit discussion agreements or meanings already specified in the approved skill contracts. Proposed terms are definitions inferred from current usage; their labels or boundaries still need agreement. Operational procedures and project decisions remain in the skills and `BOUNDARIES.yaml`.
 
@@ -25,6 +25,12 @@ The refined description of an MVP, including its requirements, decisions, and li
 Qualifier: For a question or decision, the baseline may be a reasoned answer or decision framework.
 
 Source: [Refine](../.agent/skills/refine/SKILL.md#refine-ideas).
+
+#### Small task
+
+A task with bounded scope, identifiable dependencies, and a result that can be verified directly against its agreed requirements.
+
+Source: Explicit user definition during Implement refinement on 2026-11-23; [accepted decision I2](topics/implement/decisions.md#i2-any-topic-with-criterion-based-suitability).
 
 #### Substantive gap
 
@@ -282,6 +288,16 @@ Status values:
 Sources: [Fix verification](../.agent/skills/fix/SKILL.md#verify-and-account-for-every-finding), [Smokes Fix handoff](../.agent/skills/smokes/references/report-contract.md#fix-handoff-and-freshness).
 
 ## Proposed terms
+
+### Deferred work
+
+#### Backlog
+
+A project's single record of topics and potential work retained for later consideration because they fall outside the discussion or task's current scope.
+
+Needs agreement: This exact glossary wording remains proposed; the operational capture rules follow the accepted Backlog baseline.
+
+Sources: [Backlog](../.agent/skills/backlog/SKILL.md#backlog), [accepted capture decision B1](topics/backlog/decisions.md#b1-automatic-capture-with-scope-clarification).
 
 ### Document preparation
 

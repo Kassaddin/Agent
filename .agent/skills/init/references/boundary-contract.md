@@ -4,7 +4,7 @@
 
 Use the boundary file explicitly selected for the project; otherwise follow the [project layout contract](project-layout.md) to discover the known namespace/legacy candidates. Multiple candidates require explicit selection, never a permissiveness-based fallback. Read the selected file before exploring additional project resources. Do not search unrelated folders for a more permissive file. This small discovery read, reading applicable project guidance, and conversing about setup are bootstrap operations; they do not authorize inspecting other sources or writing a policy.
 
-With no file, keep useful work in chat and use only access already explicitly authorized in the session. Offer Init for persistent boundaries; do not force a setup interview for a simple answer. A missing contract, malformed file, or draft file cannot grant new permissions. Report the problem and pause dependent resource operations. Continue unrelated reasoning in chat.
+With no file, keep useful work in chat and use only access already explicitly authorized in the session. Offer Init for persistent boundaries; do not force a setup interview for a simple answer. A missing contract, malformed file, or draft file cannot grant new permissions. Report the problem and pause dependent resource operations. Unrelated reasoning is permitted only while no user question is pending under the shared question gate.
 
 For a present file, validate using [the validator](../scripts/validate_boundaries.py) and [the schema](boundaries.schema.json). The command requires Python and PyYAML. If unavailable, report the limitation and avoid new policy-dependent operations until validation can be completed. Require `state: active` for using saved permissions. The file is an instruction contract, not an operating-system access control mechanism; higher-priority instructions and actual sandbox permissions continue to apply.
 
@@ -16,6 +16,52 @@ For a present file, validate using [the validator](../scripts/validate_boundarie
 - `user_only`: the agent does not execute the operation; the user performs it. This value is used for version-control operations.
 
 User-authored policy changes are possible, but must be explicit and revalidated. When approvals.policy_changes_require_review is true (the default), show a concrete policy-change preview for approval. False omits that extra preview for an already explicitly authorized update; it never permits the agent to invent broader authority. Initial activation always requires review. Never weaken boundaries automatically to complete another task. `trusted_for_source` is a remote-content-write approval preference only; it is neither general task authorization nor an override of any other rule.
+
+## Questions and assumed answers
+
+After posing any question to the user, pause the whole current task until the
+answer is received. Do not continue independent branches, edits, retrieval,
+handoffs, or other task progress while waiting. For a round of questions, wait
+for every answer before resuming. Silence, elapsed time, and a preselected option
+are not answers. A change notification that requests no response is not a question.
+
+Prepare necessary state and pause controllable background work before asking.
+Already dispatched read-only requests may finish, but their results are not
+processed or acted on while the question is pending. Gather retrievable facts
+before asking when they are needed to make the question useful. A pending search
+alone is not an unanswered user question and does not itself pause unrelated work.
+
+The exception is the user's explicit permission to assume answers within a
+specified scope. For each covered choice, always select its stated recommended
+answer and identify the resolution as assumed under that authorization. Establish
+the recommendation before selecting it; do not relabel an arbitrary choice as
+recommended afterward. If no justified recommendation exists or user-specific
+facts are required, ask and wait rather than inventing an answer. Routine details
+already delegated to the agent are not unanswered user questions.
+
+Record each assumed answer once in the existing topic record, or in the
+conversation for brief work: the question, recommended answer selected, actual
+authorization, and effect or resolution. Keep it distinct from user-provided
+facts and explicitly agreed answers. Checkpoints reference that record rather
+than holding another list. At the end of the work session, explicitly list all
+answers assumed in that session and their resolutions. Do not require a new
+report or empty list when no answers were assumed.
+
+Permission to assume content answers is not a fabricated access approval or a
+policy amendment. Real advance authorization for a specific action remains valid;
+do not ask for it again. Never/user-only rules, remote modes, policy review, and
+actual platform approvals still apply. Do not infer permission to assume answers
+from a read/write grant, the user's absence, or an earlier recommendation alone.
+
+## Workflow economy
+
+Every flow uses the smallest complete process for the task: preserve all agreed
+requirements and necessary verification, use clear questions and outcomes, and
+avoid unnecessary stages, branches, documents, or repeated approval requests.
+Resolve material ambiguity rather than guessing a convenient meaning. Keep one
+authoritative place for each definition, decision record, backlog item, and
+checkpoint; reference existing material instead of creating parallel histories.
+Minimal does not mean omitting required coverage, checks, or permission gates.
 
 ## Match resources and effects
 

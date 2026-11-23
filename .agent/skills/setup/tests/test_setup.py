@@ -130,9 +130,12 @@ class SetupTests(unittest.TestCase):
         self.assertEqual(list((self.root / 'Agents').iterdir()), [])
 
     def test_incomplete_bundle_or_broken_links_stop_before_installation(self):
-        self.source.payload.pop('.agent/skills/refine/SKILL.md')
-        with self.assertRaises(ReleaseError):
-            self.installer().plan()
+        for missing in ('refine', 'implement', 'backlog'):
+            with self.subTest(missing=missing):
+                self.source.payload = files()
+                self.source.payload.pop(f'.agent/skills/{missing}/SKILL.md')
+                with self.assertRaises(ReleaseError):
+                    self.installer().plan()
         self.source.payload = files()
         self.source.payload['README.md'] = b'[Missing](absent.md)\n'
         with self.assertRaises(ReleaseError):

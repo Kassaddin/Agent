@@ -11,6 +11,8 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Init | Boundary configuration and access-policy consistency |
 | Glossary | Canonical definitions, aliases, and terminology agreement status |
 | Refine | Refinement process, decision rationale, and MVP baseline |
+| Implement | Authorized execution of agreed small-task baselines, verification evidence, and implementation outcomes |
+| Backlog | Captured project backlog entries, their provenance, and capture/deduplication consistency |
 | Search | Retrieved evidence, verified locators, and retrieval coverage |
 | To Document | Document composition, faithful representation, and delivery completeness |
 | Smokes | Audit findings, evidence, classifications, and coverage |
@@ -23,7 +25,7 @@ The user remains the substantive decision-maker. Refine is the common resolution
 
 **Mechanical correction:** A correction whose intended result is unambiguously supported by current authoritative material and preserves agreed meaning, scope, and requirements.
 
-Fix may apply an authorized mechanical correction directly and verify it without starting the owner's full workflow. A choice between plausible meanings or targets requires resolution through Refine first. Ownership is accountability; current permissions and the requested task still determine whether any edit is permitted. A handoff does not itself authorize another agent.
+Fix may apply an authorized mechanical correction directly and verify it without starting the owner's full workflow. A choice between plausible meanings or targets requires resolution through Refine first. Implement may correct its own authorized in-scope work and verify it without starting a report-based Fix workflow. Corrections requested from a Smokes report remain Fix's workflow. Ownership is accountability; current permissions and the requested task still determine whether any edit is permitted. A handoff does not itself authorize another agent.
 
 ## One decision record per topic
 
@@ -34,6 +36,20 @@ Preserve a record belonging to another topic; use the established topic location
 Refine maintains decision entries. Keep them distinct from proposals, assumptions, facts, and pending actions. Refer to canonical definitions in the glossary rather than maintaining another independently editable definition. Owners maintain their artifacts; delivered documents represent accepted decisions faithfully and do not replace the decision record as their authority.
 
 An agreed decision and an applied artifact update are separate states. Preserve decision references when applying or verifying an update. Reopen settled choices only for material new information or an explicit user revision. Record the revised accepted choice and reason so superseded content is not treated as current.
+
+## Deferred items
+
+[Backlog](../../backlog/SKILL.md) owns captured out-of-scope items in one reader-facing
+project file. It is active only in conversations where Backlog or Refine was
+invoked, not from project adoption or a context summary alone. When capture is
+already active, a caller can supply an item and receive its ID and actual saved
+or unsaved status; caller write restrictions still apply. Search and Smokes never
+gain backlog-write authority through that handoff.
+
+Accepted choices and exclusion reasons remain in the topic record; the backlog
+retains the item and source references. Capture is not approval, prioritization,
+implementation authorization, or resolution of a required prerequisite. Link the
+existing sources instead of creating another decision log or checkpoint.
 
 ## Assigned-choice handoffs
 

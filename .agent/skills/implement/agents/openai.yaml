@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement"
+  short_description: "Carry out an agreed baseline for a small task"
+  default_prompt: "Use $implement to carry out the agreed Refine baseline and verify the result."

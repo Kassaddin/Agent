@@ -4,7 +4,8 @@ Read `config/BOUNDARIES.yaml` relative to this file and the Init boundary
 contract in `skills/init/references/boundary-contract.md` before accessing
 project resources. Validate the selected active policy with the trusted installed
 Init validator or an explicitly authorized source copy. Reload changed policy
-before affected operations. Placement inside `.agent/` grants no additional access.
+before affected operations. Placement inside `.agent/` grants no additional access. All flows also follow the
+shared question/assumption and workflow-economy rules in that boundary contract.
 
 Follow `skills/init/references/project-layout.md`. Reader material belongs in
 the existing `docs/` layout. Final documents use its appropriate topic/document

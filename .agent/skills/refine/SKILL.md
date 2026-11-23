@@ -31,7 +31,7 @@ Propose the smallest coherent scope that satisfies the stated objective and requ
 
 Organize unresolved questions as a dependency graph: a question may have several prerequisites. Ask useful questions whose prerequisites are sufficiently established for their answers to be meaningful. A prerequisite remains blocking when its unresolved alternatives would materially change a dependent question or its answer.
 
-Group independent questions into manageable rounds, prioritizing those that could change the direction. A question that depends on an answer still pending in the same round belongs to a later round. Reassess dependencies after answers or new evidence; avoid presenting every possible branch at once.
+Group independent questions into manageable rounds, prioritizing those that could change the direction. A question that depends on an answer still pending in the same round belongs to a later round. After asking a round, follow the boundary contract's whole-task wait until every answer is received or a scoped recommended-answer assumption is authorized. Reassess dependencies after resolution or new evidence; avoid presenting every possible branch at once.
 
 Ask the user to resolve choices that materially affect the objective, scope, priorities, constraints, or substantive trade-offs. Manage question ordering, evidence gathering, and routine workflow choices within established authority. Explain why a question matters when that is unclear. Offer options and a recommendation when useful, with relevant trade-offs and wording that makes disagreement easy. A recommendation or provisional assumption is not an agreed decision.
 
@@ -41,11 +41,28 @@ Probe important assumptions using concrete scenarios, counterexamples, alternati
 
 Finding and checking facts is your responsibility. Providing necessary personal or situational context is the user's responsibility. Ask focused questions when that context is missing or unclear; do not ask the user to research information retrievable from authorized sources. Context includes circumstances, experiences, intentions, values, preferences, and constraints. Attribute user-provided information appropriately; verify externally checkable claims when they materially affect the outcome and authorized evidence is available.
 
-For factual retrieval, follow Search's preference for one bounded worker and use its direct-lookup fallback only as its contract permits. Let Search govern worker context, effort, budgets, and result format; let the active boundaries govern permissions. If Search is missing or retrieval is blocked, report the specific limitation and continue independent discussion without inventing evidence or expanding access.
+For factual retrieval, follow Search's preference for one bounded worker and use its direct-lookup fallback only as its contract permits. Let Search govern worker context, effort, budgets, and result format; let the active boundaries govern permissions. If Search is missing or retrieval is blocked, report the specific limitation without inventing evidence or expanding access. A question to the user pauses the entire task; otherwise continue only permitted work.
 
-Treat a pending search as an unresolved prerequisite. Defer only questions that depend on its result and continue independent questions when the host allows concurrent work. Consume the returned evidence yourself, assess its relevance and coverage, and resume refinement. Search results do not establish the user's preferences or decisions.
+Treat a pending search as an unresolved prerequisite for its dependent questions. Before any user question, other authorized preparation may continue. Once a question is asked, the shared whole-task wait also gates new searches and processing returned evidence. Consume search results after that gate is satisfied and assess relevance and coverage yourself; results do not establish the user's preferences or decisions.
 
-When a relevant fact remains unavailable, identify it as unknown. If proceeding requires a provisional assumption, state that assumption, its basis, and its effect. Ask for a necessary authorization or clarification of context when applicable. Do not substitute an assumption for a substantive decision that requires the user.
+When a relevant fact remains unavailable, identify it as unknown. Label technical working hypotheses and verify them; they are not user answers. An assumption standing in for a user answer requires explicit permission, selection of the stated recommended option, and the boundary contract's session-end accounting. Otherwise ask and wait. Do not invent user facts, agreement, or access approval.
+
+## Capture deferred topics
+
+Invoking Refine enables [Backlog](../backlog/SKILL.md) capture in this conversation
+for the selected project, including later free-form discussion, unless the user
+stops capture. Read Backlog when an out-of-scope item arises and pass its meaning,
+scope/exclusion evidence, source, and origin. Its explicit dependency hook does
+not rely on ambient skill selection or enable other conversations.
+
+Capture clear deferrals automatically within current authority; ask when scope is
+unclear. Required prerequisites remain blockers rather than silently deferred
+work. Reuse the one project backlog and link its IDs from the topic record where
+needed; preserve accepted exclusion reasons there without copying item histories.
+Missing Backlog or write restrictions leave entries explicitly unsaved and do not
+block otherwise permitted refinement while no user question is pending. Do not activate a service or change host guidance.
+When called by Backlog to clarify an item, resolve that assigned choice and return;
+do not recapture the same pending candidate recursively.
 
 ## Preserve useful state
 
@@ -75,4 +92,4 @@ When the criteria are met, deliver the baseline and explain why it is complete, 
 
 Refine establishes the first complete MVP baseline. The planned `iterate` skill will develop that baseline through later feedback and changes; it is not yet available and is not a dependency of Refine. Preserve deferred work for that future step without invoking it.
 
-If a final document was requested, proceed to [To Document](../to-document/SKILL.md) when available. Otherwise deliver the refinement result directly. If the document skill is unavailable, return the baseline and identify the outstanding document request.
+Continue only into requested delivery. A requested final document uses [To Document](../to-document/SKILL.md); explicit implementation of an agreed small-task baseline uses [Implement](../implement/SKILL.md). These are independent requested outcomes, not a mandatory sequence. Without a delivery request, return the refinement result directly. If a needed skill is unavailable, return the baseline and identify the outstanding request; never treat agreement alone as implementation authority.
