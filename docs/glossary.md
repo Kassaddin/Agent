@@ -1,6 +1,6 @@
 # Glossary: Agent Skills
 
-Scope: Shared terminology of this project's nine reusable skills: `init`, `glossary`, `refine`, `search`, `to-document`, `smokes`, `fix`, `context`, and `update`. Definitions apply to their access, discussion, document, audit, correction, project-context, and kit-update workflows across topics.
+Scope: Shared terminology of this project's ten reusable skills: `setup`, `init`, `glossary`, `refine`, `search`, `to-document`, `smokes`, `fix`, `context`, and `update`. Definitions apply to their access, discussion, document, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
 
 Agreed terms reflect explicit discussion agreements or meanings already specified in the approved skill contracts. Proposed terms are definitions inferred from current usage; their labels or boundaries still need agreement. Operational procedures and project decisions remain in the skills and `BOUNDARIES.yaml`.
 

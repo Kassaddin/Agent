@@ -9,7 +9,7 @@ Own release selection, verified managed-file replacement, installed-release rece
 
 ## Scope and authority
 
-Read the [boundary contract](../init/references/boundary-contract.md), selected active policy, and [layout contract](../init/references/project-layout.md). Resolve the project-local kit root and configured repository source. Host files outside the selected kit and personal Codex skills directories are never update destinations. A kit may itself be the permitted primary root; this grants no access to its surrounding host. Preserve host layout, project configuration, context, checkpoints, local documents, and unmanaged additions.
+Read the [boundary contract](../init/references/boundary-contract.md), selected active policy, and [layout contract](../init/references/project-layout.md). Resolve the project-local kit root and configured repository source. First installation belongs to [Setup](../setup/SKILL.md); a pending Setup installation must recover through Setup before updating. Host files outside the selected kit and personal Codex skills directories are never update destinations. A kit may itself be the permitted primary root; this grants no access to its surrounding host. Preserve host layout, project configuration, context, checkpoints, local documents, and unmanaged additions.
 
 Read [the update contract](references/update-contract.md) before using the [helper](scripts/update_kit.py). Its release format is shared with the producer; it does not execute candidate code or issue Git commands. Prefer existing configured read access. Missing source access is a specific blocker for Init, not permission to add sources, change credentials, or weaken policy.
 

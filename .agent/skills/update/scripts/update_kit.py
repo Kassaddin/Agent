@@ -128,6 +128,11 @@ class Updater:
         self.access.require(self.kit)
         if not self.kit.is_dir():
             raise Blocked("Select an existing installed project kit")
+        setup_raw = self.read(".agent/state/setup/journal.json")
+        if setup_raw is not None:
+            setup_state = strict_json(setup_raw)
+            if not isinstance(setup_state, dict) or setup_state.get("phase") != "installed":
+                raise Blocked("A Setup installation needs its own recovery before Update can proceed")
         if not self.path(".agent/skills").is_dir():
             raise Blocked("The selected folder has no installed kit skill directory")
         if self.kit == self.access.root and self.kit.name != "Agents" and self.read(MANIFEST) is None:

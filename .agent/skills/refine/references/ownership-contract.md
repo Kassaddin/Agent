@@ -16,7 +16,8 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Smokes | Audit findings, evidence, classifications, and coverage |
 | Fix | Authorized corrections, verification evidence, and correction outcomes |
 | Context | Derived project views, source index, and freshness information |
-| Update | Release comparison, managed-file installation, installed receipts, and update/recovery outcomes |
+| Setup | First installation, installation verification, and setup/recovery outcomes |
+| Update | Release comparison, shared release/receipt protocol, later managed-file replacement, and update/recovery outcomes |
 
 The user remains the substantive decision-maker. Refine is the common resolution workflow for unresolved substantive content choices; the responsible owner supplies its constraints and records the resulting change in its artifact. Init continues handling access-policy choices. Routine delivery and access questions remain with the responsible workflow.
 

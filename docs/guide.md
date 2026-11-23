@@ -1,6 +1,23 @@
 # Installation and Usage
 
-## Add the release to a project
+## Install with Setup
+
+If the trusted Setup skill is already available, invoke `$setup` and identify the
+local host project. It installs the complete kit from its fixed published-release
+repository into a new `Agents/` folder, verifies the release and installed files,
+and records the initial baseline for later Update calls. It never replaces an
+existing destination, installs personal skill copies, or edits host entry files.
+
+Without boundaries, authorize only the stated source and installation destination.
+After verified installation, Setup automatically starts Init when no policy is
+present. If a policy is present, it asks whether to run Init. Init still requires
+approval of the concrete policy before activation. Installing the kit and
+configuring project permissions are separate results.
+
+If Setup is not available yet, use the manual extraction route below and load or
+install the reviewed skill packages separately.
+
+## Add the release manually to a project
 
 The release archive contains one top-level `Agents/` folder. Inspect the archive
 before extraction. If the host already contains `Agents/`, review its ownership
@@ -41,6 +58,7 @@ choose to do so; extraction does not install or run anything.
 
 | Skill | Intended result |
 | --- | --- |
+| `$setup` | Verified first installation of the complete project kit, followed by the applicable Init handoff |
 | `$init` | Approved, validated project access and engagement boundaries |
 | `$glossary` | Consistent terminology with agreement status preserved |
 | `$refine` | A minimal yet complete baseline, or resolved assigned choices |
@@ -51,7 +69,7 @@ choose to do so; extraction does not install or run anything.
 | `$context` | Relevant source-linked project context, with freshness limits |
 | `$update` | Verified published-release updates for this project kit, preserving local edits |
 
-Begin with `$init` in the external project and identify the host project root,
+After manual extraction, begin with `$init` in the external project and identify the host project root,
 the `Agents/` workspace, and the sources you authorize. Its primary project can
 be the surrounding host; that does not authorize every operation there.
 The normal kit policy location is `Agents/.agent/config/BOUNDARIES.yaml`.
@@ -98,14 +116,22 @@ its own local state. An older kit needs a verifiable matching published baseline
 otherwise it stops. A known `--baseline-version` can identify that package.
 It never substitutes an arbitrary branch source archive for a published package.
 
-Failed or interrupted installation retains backups and a recovery record. A
+Failed or interrupted updates retain backups and a recovery record. A
 pending recovery blocks another update; concurrent edits and missing recovery
 permissions are preserved and reported. Readable outcomes link to structured
 JSON under the kit's operational reports.
 
+## Recover a first installation
+
+An interrupted Setup installation must be recovered through Setup before Update
+can run. Recovery verifies complete installations or removes only identified,
+unchanged Setup-created files when permitted. Changed or uncertain content is
+preserved. Recovery leaves its records and may leave empty directories; it never
+recursively deletes the host or silently reuses an occupied destination.
+
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v1.1.0`, then publish that same tag
+Build with an explicit tag such as `--version v1.2.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

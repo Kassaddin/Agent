@@ -3,7 +3,10 @@
 This guidance is installed as `<kit-root>/.agent/instructions.md`. The normal
 policy location within that operational area is `config/BOUNDARIES.yaml`. Before project resource access,
 follow the sibling Init package's boundary and layout contracts. No active
-policy is supplied by the release. A missing file grants no permissions.
+policy is supplied by the release. A missing file grants no permissions. Setup
+may install with an explicit source/destination bootstrap grant, then starts Init
+automatically if no policy is present; a present policy means ask whether to run
+Init. Installation itself never activates permissions.
 
 Use the surrounding host as the primary project only when explicitly selected
 and authorized. Reuse host instructions, glossaries, decisions, and document

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup"
+  short_description: "Install a verified project-local skills kit"
+  default_prompt: "Use $setup to install the complete Agents kit in this project and handle its Init handoff."

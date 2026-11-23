@@ -14,7 +14,7 @@ import zipfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills/update/scripts"))
 from release_format import MANIFEST, make_manifest, json_bytes
 
-PACKAGES = ("context", "fix", "glossary", "init", "refine", "search", "smokes", "to-document", "update")
+PACKAGES = ("context", "fix", "glossary", "init", "refine", "search", "setup", "smokes", "to-document", "update")
 EXCLUDED = {"__pycache__", ".pytest_cache", ".git", ".venv", "node_modules"}
 EXTENSIONS = {".md", ".yaml", ".yml", ".json", ".py", ".txt"}
 
@@ -53,9 +53,15 @@ def build(project_root, version):
         raw = source.read_bytes()
         captured[source] = raw
         payload[name] = raw.replace(b"(../../docs/guide.md)", b"(docs/guide.md)") if name == "Agents/README.md" else raw
-    for raw in payload.values():
+    for name, raw in payload.items():
         for marker in (b"C:/Users/", b"C:\\Users\\", b"G:/VAULT/", b"Kassaddin/Agent"):
             if marker.lower() in raw.lower():
+                if marker == b"Kassaddin/Agent" and name in {
+                    "Agents/.agent/skills/setup/SKILL.md",
+                    "Agents/.agent/skills/setup/references/setup-contract.md",
+                    "Agents/.agent/skills/setup/scripts/setup_kit.py",
+                }:
+                    continue  # User-approved fixed release source; no other identity exception.
                 raise ValueError("A project-specific path or repository identity needs review before sharing")
     manifest = make_manifest({name.removeprefix("Agents/"): raw for name, raw in payload.items()}, version)
     payload["Agents/" + MANIFEST] = json_bytes(manifest)
