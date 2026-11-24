@@ -1,0 +1,3 @@
+interface:
+  display_name: "Project Context"
+  short_description: "Load and maintain source-linked project context"

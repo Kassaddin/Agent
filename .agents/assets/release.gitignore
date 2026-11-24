@@ -1,0 +1,14 @@
+# Kit-local state only; these paths are relative to Agents/, not the host root.
+/.agents/config/
+/.agents/context/
+/.agents/state/
+/.agents/reports/
+/docs/topics/
+/docs/reports/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
+!.env.example

@@ -1,8 +1,8 @@
 # Local agent configuration and operational state
-/.agent/config/
-/.agent/context/
-/.agent/state/
-/.agent/reports/
+/.agents/config/
+/.agents/context/
+/.agents/state/
+/.agents/reports/
 
 # Preserve the private status of local discussion history and readable reports
 /docs/topics/
@@ -48,3 +48,6 @@ Desktop.ini
 *.bak
 *.swp
 *.swo
+
+# Generated standalone Setup bootstrap (canonical sources remain versioned)
+/.agents/skills/setup/bootstrap/
