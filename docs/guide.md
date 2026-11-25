@@ -71,6 +71,7 @@ All skills follow the [shared question and assumption rules](../.agents/skills/i
 
 | Skill | Intended result |
 | --- | --- |
+| `$orchestrator` | Coordination of temporary skill workers, acceptance, and consolidated delivery in this chat |
 | `$setup` | Verified first installation of the complete project kit, followed by the applicable Init handoff |
 | `$init` | Approved, validated project access and engagement boundaries |
 | `$glossary` | Consistent terminology with agreement status preserved |
@@ -96,6 +97,36 @@ location, pass the chosen agent area explicitly to helpers that need it.
 
 Existing host instructions are reused. Any integration pointer added to them
 requires an explicit, narrowly scoped change. The kit does not overwrite them.
+
+## Coordinate work in one chat
+
+Invoke `$orchestrator` to make the current chat the master for subsequent work
+until you stop the mode. The master handles clarification, dispatch, acceptance,
+and final delivery; temporary workers perform the actual skill workflows. Each
+invocation, including a dependency, receives a worker. Other chats are unaffected.
+The host must support temporary sub-agents and the selected settings; unavailable
+capabilities are reported instead of silently replaced with persistent chats.
+
+The single [routing configuration](../.agents/skills/orchestrator/references/profiles.yaml)
+maps every established production skill to a default model/effort profile.
+Orchestrator selects the least-intensive suitable approved profile and permits
+one automatic escalation per assignment. Urgency changes priority without
+lowering acceptance. Model names are configurable defaults, not cost or quality
+guarantees. Routing and activation do not grant resource or action permissions.
+
+Workers send questions and permission requests to the master. Any user question
+pauses the whole task. `elevated rights` covers otherwise-permitted non-protected
+actions only for one identified worker's assigned scope, expires with that
+worker, and never transfers to a replacement. It cannot override prohibitions,
+read-only sources, separate implementation approval, or platform controls.
+See the [worker contract](../.agents/skills/orchestrator/references/worker-contract.md)
+for protected actions and exact grant limits.
+
+Workers return verified results and context deltas. The master accepts them and
+coordinates authorized Project Context reconciliation, keeping existing decisions
+and one caller checkpoint rather than per-worker histories. Unavailable context
+maintenance is reported pending. Finished workers become inactive; the host may
+retain internal history. No persistent service or personal installation is added.
 
 ## Retain out-of-scope topics
 
@@ -226,7 +257,7 @@ recursively deletes the host or silently reuses an occupied destination.
 
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v2.0.0`, then publish that same tag
+Build with an explicit tag such as `--version v2.1.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

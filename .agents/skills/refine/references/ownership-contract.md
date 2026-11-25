@@ -8,6 +8,7 @@ Apply this contract when resolving substantive content choices across skills, ma
 
 | Skill | Owned information or artifact |
 | --- | --- |
+| Orchestrator | Delegated assignments, prerequisite/progress coordination, acceptance, and consolidated delivery; skill owners retain their artifacts |
 | Init | Boundary configuration and access-policy consistency |
 | Glossary | Canonical definitions, aliases, and terminology agreement status |
 | Refine | Refinement process, decision rationale, and MVP baseline |
@@ -91,3 +92,13 @@ When project context is available, the caller may use [Project Context](../../pr
 The caller resolves remaining substantive choices through assigned-choice Refine, lets owners apply and verify changes, and maintains its checkpoint. It may then request Project Context Refresh for affected sources when maintenance is already authorized. Otherwise record the needed refresh as pending. Search/audit write restrictions remain unchanged; a retrieval or audit request grants no Project Context write authority.
 
 Project Context updates only its derived views and index. It returns gaps, conflicts, source references, and freshness/coverage limits to the caller. It does not maintain another decision log or checkpoint, rewrite canonical records, or trigger refresh from its own output changes.
+
+## Orchestrated callers
+
+With [Orchestrator](../../orchestrator/SKILL.md) active in this chat, the master
+coordinates continuation and supplies the one caller checkpoint. It dispatches
+each actual skill workflow, including assigned-choice handoffs and authorized
+Project Context maintenance, to a worker. Workers return owner updates and
+context deltas; they do not create per-worker checkpoints or parallel records.
+Existing ownership, approval, and whole-task question gates continue to apply.
+Outside this mode, the existing caller/worker rules remain unchanged.

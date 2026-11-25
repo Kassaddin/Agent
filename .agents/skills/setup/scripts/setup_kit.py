@@ -19,7 +19,7 @@ from release_format import GUIDANCE, MANIFEST, ReleaseError, json_bytes, managed
 from release_source import GitHubSource, NoRelease, SourceError, repository_identity
 
 REPOSITORY = 'Kassaddin/Agent'
-REQUIRED_SKILLS = {'backlog', 'project-context', 'create-skill', 'fix', 'glossary', 'implement', 'init', 'refine', 'search', 'setup', 'smokes', 'to-document', 'to-tasks', 'update'}
+REQUIRED_SKILLS = {'backlog', 'project-context', 'create-skill', 'fix', 'glossary', 'implement', 'init', 'orchestrator', 'refine', 'search', 'setup', 'smokes', 'to-document', 'to-tasks', 'update'}
 JOURNAL = '.agents/state/setup/journal.json'
 LOCK = '.agents/state/setup/lock'
 RECEIPT = shared.RECEIPT

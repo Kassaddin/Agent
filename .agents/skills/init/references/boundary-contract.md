@@ -85,6 +85,24 @@ The default workflow is local_current_branch: modify permitted content only in t
 
 The conversation rules prevent scope expansion and implementation during analysis-only requests. Delegation is subject to its own decision. These gates also apply to other skills: reading this contract does not authorize running the Init interview or changing its configuration.
 
+## Orchestrated execution
+
+When the user has activated Orchestrator in the current chat, follow the
+master's supplied Orchestrator assignment and worker contract. Reading skill
+instructions or adopting the project does not activate this mode. The master
+alone dispatches temporary workers for actual skill workflows, including
+dependencies; workers request handoffs instead of spawning children. Consulting
+instructions or reading an existing glossary is not itself another invocation.
+
+Return user questions and missing permissions to the master. The whole-task
+question gate applies to every worker once the master prompts the user. Keep
+source permissions and artifact ownership intact. A routing profile, worker
+handoff, or temporary grant cannot override never/user_only restrictions,
+read-only sources, required implementation approval, or platform controls.
+Search-only standing approval remains limited to its specified worker; it does
+not authorize general orchestration. Outside active Orchestrator mode, existing
+skill dispatch and delegation rules remain unchanged.
+
 ## Scoped Search approval
 
 The optional approvals.allow_read_only_search_worker field defaults to false when absent, preserving existing files. True records standing user authorization for one bounded read-only Search worker per search request. It satisfies conversation.delegate_work: ask for that specific worker only. It never overrides delegate_work: never, source restrictions, investigation restrictions, sandbox permissions, or other authorization gates.

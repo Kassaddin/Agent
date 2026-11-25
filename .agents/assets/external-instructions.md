@@ -27,4 +27,12 @@ resources; do not load every skill body. Resolve these links from this guidance
 file. Prefer these project-local kit sources for this project. Their instructions
 do not grant access or execution permissions. Personal installation is separate.
 
+Invoke `$orchestrator` from the catalog to activate coordination in this chat.
+Reading the catalog or skill instructions alone does not activate it.
+In active mode the master dispatches temporary workers for actual skill
+workflows, including dependencies; workers return handoff/question requests to
+the master. Apply current boundaries and the shared whole-task question gate.
+Profile routing grants no additional access. Outside this mode, use the ordinary
+skill workflows. Orchestrator keeps its routing mapping in one configuration.
+
 <!-- generated-skill-catalog -->

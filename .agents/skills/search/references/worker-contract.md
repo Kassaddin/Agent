@@ -4,7 +4,7 @@
 
 Supply the query or retrieval objective, boundary file path, source IDs or an auto/all scope, requested mode, and matching overrides. Include relevant glossary terms and source notes only when useful. No dependency on Glossary, Refine, or To Document is required. Pass known freshness limitations from project guidance; do not invent them from file modification times.
 
-Use one worker per request, with a fresh context and low effort where supported. Do not invent reasoning fields in openai.yaml. In a host with explicit agent controls, request a fresh context and the supported low reasoning setting. A minimal host prompt is:
+With Orchestrator active, the master creates this worker with the selected approved profile; the worker does not spawn another worker. Follow the [Orchestrator worker contract](../../orchestrator/references/worker-contract.md) for coordination and permission escalation. Outside Orchestrator, use one worker per request, with a fresh context and low effort where supported. Do not invent reasoning fields in openai.yaml. In a host with explicit agent controls, request a fresh context and the supported low reasoning setting. A minimal host prompt is:
 
 ```text
 Use Search at <skill-path>. Query: <query>. Objective: <needed evidence>.

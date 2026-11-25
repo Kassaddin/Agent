@@ -1,6 +1,6 @@
 # Glossary: Agent Skills
 
-Scope: Shared terminology of this project's fourteen reusable skills: `setup`, `init`, `glossary`, `refine`, `backlog`, `implement`, `create-skill`, `search`, `to-document`, `to-tasks`, `smokes`, `fix`, `project-context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
+Scope: Shared terminology of this project's fifteen reusable skills: `orchestrator`, `setup`, `init`, `glossary`, `refine`, `backlog`, `implement`, `create-skill`, `search`, `to-document`, `to-tasks`, `smokes`, `fix`, `project-context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
 
 Agreed terms reflect explicit discussion agreements or meanings already specified in the approved skill contracts. Proposed terms are definitions inferred from current usage; their labels or boundaries still need agreement. Operational procedures and project decisions remain in the skills and `BOUNDARIES.yaml`.
 
@@ -113,6 +113,12 @@ Qualifier: The 700-word global orientation budget is an advisory starting trigge
 Sources: [Project Context decision C4](topics/context/decisions.md#c4-layout-by-retrieval-needs), [layout contract](../.agents/skills/project-context/references/context-contract.md#layout-choices).
 
 ### Access and retrieval
+
+#### Protected action
+
+An operation with material potential for data loss, changes to active security or privacy controls, disclosure of personal or confidential information, or commitments beyond existing authorization.
+
+Source: Explicit user agreement during Orchestrator refinement; [accepted decision O5](topics/orchestrator/decisions.md#o5-protected-actions-and-temporary-grants).
 
 #### act
 
@@ -294,6 +300,26 @@ Status values:
 Sources: [Fix verification](../.agents/skills/fix/SKILL.md#verify-and-account-for-every-finding), [Smokes Fix handoff](../.agents/skills/smokes/references/report-contract.md#fix-handoff-and-freshness).
 
 ## Proposed terms
+
+### Orchestration
+
+#### Orchestrator
+
+The coordinating skill accountable for delegated assignments, their progress, and consolidated delivery of an authorized request.
+
+Needs agreement: The exact glossary wording remains proposed; the operational role is established in the [Orchestrator decisions](topics/orchestrator/decisions.md).
+
+#### Master chat
+
+A conversation with Orchestrator active, serving as the user-facing coordination point for its delegated work.
+
+Needs agreement: The exact glossary wording remains proposed; chat-local activation and coordination are agreed operational behavior.
+
+#### Worker session
+
+A temporary sub-agent execution context assigned a bounded skill invocation by the master chat.
+
+Needs agreement: The exact glossary wording remains proposed; temporary workers and bounded assignments are agreed operational behavior.
 
 ### Project-local authoring
 

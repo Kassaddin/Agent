@@ -1,0 +1,28 @@
+schema_version: 1
+max_automatic_escalations: 1
+profiles:
+  Routine:
+    model: gpt-6-luna
+    effort: low
+  Standard:
+    model: gpt-6.2-sol
+    effort: medium
+  Demanding:
+    model: gpt-6.2-astra
+    effort: high
+    escalated_effort: xhigh
+skill_profiles:
+  search: Routine
+  backlog: Routine
+  glossary: Standard
+  project-context: Standard
+  init: Standard
+  setup: Standard
+  update: Standard
+  fix: Standard
+  implement: Standard
+  create-skill: Standard
+  to-document: Standard
+  refine: Demanding
+  to-tasks: Demanding
+  smokes: Demanding

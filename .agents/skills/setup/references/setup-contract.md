@@ -7,7 +7,8 @@ permissions and activation; host integration is a separate concrete approval.
 
 The fixed source is `https://github.com/Kassaddin/Agent`, published packages only.
 The only fresh kit destination is `<project>/Agents`, using `.agents/` internally.
-Require the fourteen-skill complete inventory including `project-context`, layout
+Require the fifteen-skill complete inventory including `project-context` and
+`orchestrator`, layout
 3/protocol 2, and kit guidance. Unknown sources, arbitrary occupied destinations,
 or incompatible published assets stop the operation. Do not run candidate code.
 

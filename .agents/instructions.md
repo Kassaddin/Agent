@@ -13,7 +13,12 @@ location. Keep machine-specific locations in the boundary configuration, not
 in reusable instructions.
 
 Resolve project skill requests from `skills/<name>/SKILL.md` relative to this
-file, loading only the relevant instructions/resources. The context skill is
+file, loading only the relevant instructions/resources. A user invocation of
+[Orchestrator](skills/orchestrator/SKILL.md) activates the current chat as master;
+reading its instructions alone does not. In that mode route every actual skill
+workflow through the master and a temporary worker, including dependencies.
+Workers inherit the mode and return handoff/question requests to the master
+instead of dispatching more workers. Existing boundary gates remain in force. The context skill is
 named `project-context`; its derived data remains under `context/`.
 
 The configured vault is read-only, not current, and maintained manually by the
