@@ -30,7 +30,8 @@ Provider behavior: [GitHub release endpoints](https://docs.github.com/en/rest/re
 
 ## Application, interruption, and outcome
 
-Checks do not write. Application requires the previewed archive hash, an explicit caller request, required notification, and actual permissions. `--approve operation:project-relative-path` represents already-granted ask approval; the caller must not invent it. Never and resolved-scope restrictions still win.
+Checks do not write. Application requires the previewed archive hash, an explicit caller request, required notification, and actual permissions. `--approve operation:project-relative-path` represents actual authorization for a previewed local ask decision under the
+[boundary contract](../../init/references/boundary-contract.md#decisions-and-approvals). Never and resolved-scope restrictions still win.
 
 The updater owns its lock, current receipt/pending pointer, bounded run journal/backups, and immutable outcomes. [Setup](../../setup/SKILL.md) establishes the first installed receipt using this same protocol. A pending Setup journal requires Setup recovery before Update; it is not an older-kit baseline to guess or overwrite. A lock prevents concurrent updater commits. Before managed writes, preflight actual destinations and report paths, capture backups, and reserve the pending run. Recheck every target before changing it; write the manifest/receipt with the coherent candidate and verify bytes. The running updater uses its already-loaded trusted implementation, not newly installed instructions.
 

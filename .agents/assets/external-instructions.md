@@ -35,4 +35,9 @@ the master. Apply current boundaries and the shared whole-task question gate.
 Profile routing grants no additional access. Outside this mode, use the ordinary
 skill workflows. Orchestrator keeps its routing mapping in one configuration.
 
+Apply [Init's elevated rights contract](skills/init/references/elevated-rights-contract.md)
+when the user explicitly invokes `elevated rights` for current work. In
+Orchestrator mode the master handles activation for one assigned worker. Honor
+compatible local protocols referenced by authorized host guidance.
+
 <!-- generated-skill-catalog -->

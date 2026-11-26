@@ -1,0 +1,3 @@
+interface:
+  display_name: "Elevated Rights"
+  short_description: "Handle a scoped temporary consent command"

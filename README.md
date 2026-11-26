@@ -1,6 +1,6 @@
 # Reusable Agent Skills
 
-Fifteen reusable skills support temporary-worker orchestration, kit installation, project setup, shared terminology, idea refinement, direct implementation, deferred-topic capture, project-local skill authoring,
+Sixteen reusable skills support temporary-worker orchestration, scoped temporary consent, kit installation, project setup, shared terminology, idea refinement, direct implementation, deferred-topic capture, project-local skill authoring,
 evidence retrieval, document delivery, task decomposition, auditing, correction, and maintained
 project context.
 
@@ -36,10 +36,10 @@ schemas, templates, helpers, and tests travel with them.
 To rebuild the package using Python 3.10+:
 
 ```text
-python -B .agents/scripts/pack_release.py --project-root . --version v2.1.0
+python -B .agents/scripts/pack_release.py --project-root . --version v2.3.0
 ```
 
-The build regenerates the 19 bootstrap files and `provenance.json` under
+The build regenerates the 20 bootstrap files and `provenance.json` under
 `.agents/skills/setup/bootstrap/` from canonical sources, overwriting local
 edits to those generated copies. It writes the complete kit to
 `releases/agent-skills.zip` and `releases/agent-skills.zip.sha256` and standalone

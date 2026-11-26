@@ -1,6 +1,6 @@
 ---
 name: backlog
-description: Capture, deduplicate, and clarify out-of-scope topics in one project backlog during conversations where Backlog or Refine has been invoked, preserving scope and provenance without prioritization or lifecycle management.
+description: Capture, deduplicate, and clarify out-of-scope topics in one project backlog when Backlog or direct or whole-topic Refine enables capture for the conversation.
 ---
 
 # Backlog
@@ -9,7 +9,7 @@ Own the project's captured backlog entries and their consistency. Preserve topic
 
 ## Activate within the conversation
 
-Capture is active only in a conversation where Backlog or [Refine](../refine/SKILL.md) has been invoked. Refine's explicit capture hook may call this skill; unrelated conversation content, an existing backlog file, or project adoption alone does not activate it. Once enabled, capture may continue during free-form discussion in that conversation for the selected project until the user stops it. Do not enable capture in other conversations or create a background service or persistent activation flag. Reestablish the project and its canonical destination when the conversation changes project.
+Invoke Backlog or start direct or whole-topic [Refine](../refine/SKILL.md) to enable capture for the selected project in this conversation. A bounded assigned-choice Refine handoff can use the explicit capture hook only while capture is already active. Once enabled, capture may continue during free-form discussion until the user stops it. Do not enable capture from unrelated conversation content, an existing backlog file, project adoption, or another conversation. Do not create a background service or persistent activation flag. Reestablish the project and its canonical destination when the conversation changes project.
 
 Read the shared [boundary contract](../init/references/boundary-contract.md), selected policy, [layout contract](../init/references/project-layout.md), and [ownership contract](../refine/references/ownership-contract.md). Invocation does not add permissions. Caller restrictions still apply: a read-only audit/search, no-file request, or planning-only write limit cannot be bypassed through Backlog. Return unsaved entries when writing is not authorized or is blocked; never report them as saved. Init owns access-policy changes.
 

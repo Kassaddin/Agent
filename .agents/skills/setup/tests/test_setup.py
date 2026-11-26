@@ -14,7 +14,12 @@ from release_format import make_manifest, json_bytes, unpack, sha, MANIFEST, Rel
 
 
 def files():
-    payload = {f'.agents/skills/{name}/SKILL.md': f'---\nname: {name}\ndescription: Fixture skill.\n---\n\n# Fixture\n'.encode() for name in setup.REQUIRED_SKILLS}
+    skills = (
+        'backlog', 'project-context', 'create-skill', 'fix', 'glossary',
+        'implement', 'init', 'orchestrator', 'refine', 'search', 'setup',
+        'smokes', 'to-document', 'to-tasks', 'update',
+    )
+    payload = {f'.agents/skills/{name}/SKILL.md': f'---\nname: {name}\ndescription: Fixture skill.\n---\n\n# Fixture\n'.encode() for name in skills}
     payload.update({'README.md': b'# Kit\n', 'docs/guide.md': b'# Guide\n', '.agents/instructions.md': b'# Instructions\n', '.gitignore': b'__pycache__/\n'})
     return payload
 
@@ -61,12 +66,57 @@ class SetupTests(unittest.TestCase):
         return installer.apply(plan, expected_sha=plan['archive_sha256'], notified=True, **kwargs)
 
     def policy(self, **permissions):
-        policy = setup.shared.INIT.load_yaml((SKILL.parent / 'init/assets/boundaries-template.yaml').read_text(encoding='utf-8'))
-        policy['state'] = 'active'
-        policy['project']['name'] = 'Setup fixture'
-        policy['resources']['local'][0]['path'] = str(self.root)
+        policy = {
+            'schema_version': 1,
+            'state': 'active',
+            'project': {'name': 'Setup fixture', 'primary_local_id': 'project'},
+            'defaults': {'unmatched_resource': 'ask', 'unmatched_operation': 'ask'},
+            'conversation': {
+                'answer_or_explain': 'act',
+                'investigate_within_scope': 'act',
+                'implement_when_requested': 'act',
+                'implement_during_analysis_only': 'never',
+                'expand_task_scope': 'ask',
+                'delegate_work': 'never',
+            },
+            'resources': {
+                'local': [{
+                    'id': 'project', 'path': str(self.root), 'kind': 'directory',
+                    'role': 'project', 'recursive': True,
+                    'permissions': {'read': 'act', 'create': 'act', 'modify': 'act', 'delete': 'ask', 'execute': 'ask'},
+                }],
+                'remote': [],
+            },
+            'version_control': {
+                'system': 'git', 'workflow': 'local_current_branch', 'unmapped_mutations': 'user_only',
+                'operations': {
+                    'inspect': 'act',
+                    'stage_changes': 'user_only',
+                    'record_changes': 'user_only',
+                    'create_branch': 'never',
+                    'create_worktree': 'never',
+                    'switch_revision': 'user_only',
+                    'retrieve_remote_changes': 'user_only',
+                    'integrate_changes': 'user_only',
+                    'rewrite_local_history': 'user_only',
+                    'discard_local_changes': 'user_only',
+                    'remove_untracked_files': 'user_only',
+                    'reset': 'user_only',
+                    'publish_changes': 'user_only',
+                    'overwrite_remote_history': 'user_only',
+                    'change_configuration': 'user_only',
+                    'create_pull_request': 'never',
+                },
+            },
+            'approvals': {
+                'notify_queued_changes': True,
+                'offer_remote_trust_after_approval': True,
+                'policy_changes_require_review': True,
+                'allow_read_only_search_worker': False,
+            },
+        }
         policy['resources']['local'][0]['permissions'].update(permissions)
-        policy['resources']['remote'] = [{'id': 'kit', 'url': 'https://github.com/' + setup.REPOSITORY + '.git', 'kind': 'git_repository', 'local_ids': ['project'],
+        policy['resources']['remote'] = [{'id': 'kit', 'url': 'https://github.com/Kassaddin/Agents.git', 'kind': 'git_repository', 'local_ids': ['project'],
             'requested_mode': 'read', 'effective_mode': 'read', 'access': {'capability': 'read', 'status': 'ready', 'visibility': 'public', 'checked_at': '2026-11-23T00:00:00Z', 'reason': None},
             'write_approval': 'ask_each_time', 'trust_granted_at': None}]
         self.boundaries.parent.mkdir(parents=True, exist_ok=True)
@@ -130,7 +180,7 @@ class SetupTests(unittest.TestCase):
         self.assertEqual(list((self.root / 'Agents').iterdir()), [])
 
     def test_incomplete_bundle_or_broken_links_stop_before_installation(self):
-        for missing in ('refine', 'implement', 'backlog', 'create-skill', 'to-tasks', 'orchestrator'):
+        for missing in ('project-context', 'refine', 'implement', 'backlog', 'create-skill', 'to-tasks', 'orchestrator'):
             with self.subTest(missing=missing):
                 self.source.payload = files()
                 self.source.payload.pop(f'.agents/skills/{missing}/SKILL.md')
@@ -138,6 +188,25 @@ class SetupTests(unittest.TestCase):
                     self.installer().plan()
         self.source.payload = files()
         self.source.payload['README.md'] = b'[Missing](absent.md)\n'
+        with self.assertRaises(ReleaseError):
+            self.installer().plan()
+        self.assertFalse((self.root / 'Agents').exists())
+
+    def test_new_release_requires_elevated_rights_and_accepts_complete_older_release(self):
+        installer = self.installer()
+        self.assertEqual(installer.plan('v2.2.0')['status'], 'ready')
+        with self.assertRaisesRegex(ReleaseError, 'not the complete kit'):
+            installer.plan('v2.3.0')
+        self.source.payload['.agents/skills/elevated-rights/SKILL.md'] = (
+            b'---\nname: elevated-rights\ndescription: Fixture skill.\n---\n\n# Fixture\n'
+        )
+        self.assertEqual(installer.plan('v2.3.0')['status'], 'ready')
+
+    def test_retired_context_package_does_not_replace_project_context(self):
+        self.source.payload.pop('.agents/skills/project-context/SKILL.md')
+        self.source.payload['.agents/skills/context/SKILL.md'] = (
+            b'---\nname: context\ndescription: Legacy fixture.\n---\n\n# Context\n'
+        )
         with self.assertRaises(ReleaseError):
             self.installer().plan()
         self.assertFalse((self.root / 'Agents').exists())
@@ -194,6 +263,15 @@ class SetupTests(unittest.TestCase):
             self.installer().plan()
         self.assertEqual(self.boundaries.read_bytes(), original)
         self.assertEqual(self.source.calls, [])
+
+    def test_only_canonical_release_repository_is_supported(self):
+        self.policy()
+        self.source.repository = 'Kassaddin/Agents'
+        installer = self.installer(boundaries=self.boundaries, source_id='kit')
+        self.assertEqual(installer.plan()['status'], 'ready')
+        self.source.repository = 'Kassaddin/Agent'
+        with self.assertRaises(setup.shared.Blocked):
+            self.installer(boundaries=self.boundaries, source_id='kit')
 
     def test_interruption_blocks_fresh_install_and_update_then_recovers(self):
         def interrupt(name):

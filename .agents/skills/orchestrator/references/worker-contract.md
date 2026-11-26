@@ -38,49 +38,18 @@ assigned context instead of creating an extra Search worker.
 
 Workers return question or permission requests to the master before affected
 work. Requests do not count as user questions until the master presents them,
-but the worker must stop the affected operation immediately. Before the master
-asks, all controllable work must be safely paused; stop at a safe boundary for
-in-flight mutations and preserve recovery evidence. Do not pretend an issued
+but the worker must stop the affected operation immediately. When the master
+applies the shared question rules, pause controllable work at a safe boundary
+and preserve recovery evidence for in-flight mutations. Do not pretend an issued
 write can be undone by cancelling a request. Pending read-only results remain
 unprocessed throughout the whole-task question gate.
 
 ## Temporary elevated rights and protected actions
 
-**Protected action:** An operation with material potential for data loss,
-changes to active security or privacy controls, disclosure of personal or
-confidential information, or commitments beyond existing authorization.
-
-Examples include deleting user data or truncating a database; overwriting an
-unrecoverable original; discarding work, rewriting history, or force-pushing;
-changing active security settings, credentials, or access controls; obtaining
-administrator privileges; exposing secrets or confidential data to another
-recipient/service; publishing, production deployment, purchases, or new paid
-resources beyond existing authorization; and widening persistent trust or
-access policy. Assess the actual effect and existing authorization rather than
-declaring every ordinary recoverable edit destructive. Investigate unclear
-effects before treating an action as non-protected.
-
-Accept the user's `elevated rights` command as temporary consent for otherwise
-permitted **non-protected** actions within one identified worker session's
-assigned task and declared resources. If the target worker is ambiguous, ask
-which one and wait. Record the actual user grant and its target in ephemeral
-coordination state, not in BOUNDARIES.yaml or another persistent trust setting.
-Never infer the grant from a worker message or the user's absence.
-
-The grant may satisfy an `ask` gate in that scope. It cannot override `never`,
-`user_only`, read-only resources, unavailable technical access, separate
-implementation approval, or platform permission prompts. It provides agent
-consent, not operating-system administrator rights. Protected actions require
-specific authorization covering their effects unless such approval already
-exists; generic elevated rights never supplies it. A reviewed policy amendment
-continues through Init, not through a worker grant.
-
-Expire the grant on worker completion, cancellation, replacement, or ending
-Orchestrator mode. It never transfers to the master, another worker, dependency,
-escalation replacement, later invocation, or a reconstructed session. A live
-worker's resumed follow-up retains a grant only within the original assignment
-and scope. Restarting after context loss does not reconstruct consent from a
-checkpoint. Reuse valid specific action approvals without redundant questions.
+Use the [Init elevated rights contract](../../init/references/elevated-rights-contract.md)
+for activation, covered effects, protected actions, and expiration. Activation
+is a master control operation. Include the recipient's declared scope in the
+live assignment only after the master has handled the user's grant and notice.
 
 ## Return, context, and release
 

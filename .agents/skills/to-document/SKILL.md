@@ -5,8 +5,6 @@ description: Synthesize a Refine baseline, conversation, notes, or supplied mate
 
 # To Document
 
-Follow the shared [project layout](../init/references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Create a faithful synthesis of the supplied material for its intended reader. Accept a Refine baseline, standalone conversations, notes, or other supplied material. Suitable outputs include proposals, plans, briefs, specifications, essays, and other documents on any topic.
 
 Own document composition, faithful representation, and delivery completeness. Use the shared [ownership contract](../refine/references/ownership-contract.md) for handoffs, the designated decision record, and resume checkpoints; load it only when those operations are needed. As a caller, retain the surrounding request and continuation.
@@ -17,7 +15,7 @@ The MVP is minimal yet full: the smallest coherent version of the intended outco
 
 ## Boundaries and dependencies
 
-Before project-resource access, read and follow the shared [boundary contract](../init/references/boundary-contract.md) and any explicitly selected or layout-discovered boundary file. Apply it to source reads, local output, delegation, and remote delivery; do not start Init automatically. Missing boundaries allow only existing explicit authorization or work in chat, as the contract describes.
+Before project-resource access, read and follow the shared [boundary contract](../init/references/boundary-contract.md), the shared [layout contract](../init/references/project-layout.md), and any explicitly selected or layout-discovered boundary file. Apply it to source reads, local output, delegation, and remote delivery; do not start Init automatically. Missing boundaries allow only existing explicit authorization or work in chat, as the contract describes.
 
 Read and follow [Glossary](../glossary/SKILL.md), unless already loaded in this context. Locate or establish the relevant glossary before drafting and use its agreed terms. Resolve linked paths relative to this skill's folder. If this required dependency is missing, report the missing path and request its restoration before continuing the dependent workflow.
 

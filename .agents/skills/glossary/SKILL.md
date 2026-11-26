@@ -5,15 +5,13 @@ description: Establish and maintain a project or topic glossary when defining te
 
 # Glossary
 
-Follow the shared [project layout](../init/references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Maintain a shared vocabulary for the current project or topic. This skill owns definitions; the surrounding workflow owns decisions, actions, and deliverables. It works independently and is also the required terminology dependency of `refine` and `to-document`.
 
 Refine resolves unresolved substantive content choices, including disputed meanings, under the [ownership contract](../refine/references/ownership-contract.md). Load that contract only when a handoff or persistent-state operation needs it. This skill records the agreed definition and agreement status; the topic's decision record retains the decision and reason.
 
 ## Locate and scope the glossary
 
-Before project-resource access, read and follow the shared [boundary contract](../init/references/boundary-contract.md). Use the explicitly selected or layout-discovered boundary file when present. This dependency interprets access rules; it does not run the Init interview automatically. If boundaries are missing, keep work within existing explicit authorization or in chat as the contract describes.
+Before project-resource access, read and follow the shared [boundary contract](../init/references/boundary-contract.md) and [layout contract](../init/references/project-layout.md). Use the explicitly selected or layout-discovered boundary file when present. This dependency interprets access rules; it does not run the Init interview automatically. If boundaries are missing, keep work within existing explicit authorization or in chat as the contract describes.
 
 Use a glossary explicitly selected by the user. Otherwise inspect the active project's guidance and existing glossary locations. Reuse a glossary only when its scope matches the current topic; do not collect unrelated projects in a personal master glossary.
 

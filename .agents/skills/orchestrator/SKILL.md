@@ -38,8 +38,9 @@ substitute persistent chats. Do not claim to change the master's own model.
 
 Every actual skill workflow invocation gets a worker, including dependency
 workflows and cross-skill handoffs. Reading or consulting instructions alone
-does not invoke a workflow. Orchestrator's activation/control operations are
-coordination in the master, not recursive worker invocations. Non-skill
+does not invoke a workflow. Orchestrator's activation and control operations stay in the master.
+Handling an explicit `elevated rights` command is also a master control operation
+for an identified assigned worker. Neither control entry uses a worker profile. Non-skill
 production also belongs to a bounded worker assignment, using an explicitly
 selected approved profile rather than an invented skill mapping.
 
@@ -59,14 +60,21 @@ default and adjusting for complexity, uncertainty, impact, and verification.
 For an unmapped project-local skill, explicitly select a suitable configured
 profile. Urgency changes scheduling priority, never acceptance or permissions.
 
+Each profile lists ordered candidate models (GPT, Claude, Gemini) with their
+efforts. A route uses the first candidate whose model and effort the host
+supports; later candidates are fallbacks, not escalations. When no host
+capabilities are supplied, the first candidate is returned unchecked.
+
 The read-only [routing helper](scripts/route.py) validates configuration and
 resolves an initial route or one escalation. It neither discovers host
 capabilities nor dispatches agents nor grants authorization. Supply actual host
-model/effort combinations when checking support:
+model/effort combinations when checking support. For a Demanding effort
+escalation, pass the current worker's model so the higher effort stays on it:
 
 ```text
 python -B <orchestrator-folder>/scripts/route.py --skill search
 python -B <orchestrator-folder>/scripts/route.py --skill implement --escalate-from Standard --used-escalations 0
+python -B <orchestrator-folder>/scripts/route.py --skill refine --escalate-from Demanding --used-escalations 0 --current-model claude-opus-5.5
 ```
 
 Allow at most one automatic escalation per assignment, across all its workers
@@ -89,15 +97,14 @@ when needed. Replacement follows the same permission and escalation rules.
 Workers return missing permissions, user questions, dependency requests, and
 results to the master. The master routes substantive choices through bounded
 Refine and policy choices through Init; routine questions stay with their owner.
-Prepare state and safely pause controllable work before prompting the user.
-The boundary contract's whole-task wait covers all workers, retrieval, edits,
-dispatch, and processing results. Already-dispatched read-only requests may
-finish, but their results wait unprocessed until every required answer arrives.
+Prepare state and safely pause controllable work before handling a required
+question. Follow the boundary contract's interactive whole-task wait or its
+unattended stop-and-report rule across all workers, retrieval, edits, dispatch,
+and processing results.
 
-Use the worker contract for `elevated rights`, protected actions, delivery, and
-cleanup. Keep grants worker-scoped and out of persistent policy. Prior specific
-approval remains valid within its scope; do not ask again without a material
-change. A worker's request or recommendation is never user authorization.
+Apply the [Init elevated rights contract](../init/references/elevated-rights-contract.md)
+to an explicit grant. Use the worker contract for delivery and cleanup.
+A worker's request or recommendation is never user authorization.
 
 Check each result against its assigned acceptance criteria and current source
 state. Resume corrections within existing authority, use the permitted

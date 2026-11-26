@@ -9,7 +9,7 @@ Own release selection, verified managed-file replacement, installed-release rece
 
 ## Scope and authority
 
-Read the [boundary contract](../init/references/boundary-contract.md), selected active policy, and [layout contract](../init/references/project-layout.md). Resolve the project-local kit root and configured repository source. First installation belongs to [Setup](../setup/SKILL.md); a pending Setup installation must recover through Setup before updating. Host files outside the selected kit and personal Codex skills directories are never update destinations. A kit may itself be the permitted primary root; this grants no access to its surrounding host. Preserve host layout, project configuration, context, checkpoints, local documents, and unmanaged additions.
+Read the [boundary contract](../init/references/boundary-contract.md), selected active policy, and [layout contract](../init/references/project-layout.md). Resolve the project-local kit root and configured repository source. First installation belongs to [Setup](../setup/SKILL.md); a pending Setup installation must recover through Setup before updating. Host files outside the selected kit and personal Codex skills directories are never update destinations. A kit may itself be the permitted primary root; this grants no access to its surrounding host. Preserve host layout, project configuration, context, checkpoints, local documents, and unmanaged additions. Preserve existing local elevated rights protocols and guidance pointers under the [Init contract](../init/references/elevated-rights-contract.md#existing-project-protocols).
 
 Read [the update contract](references/update-contract.md) before using the [helper](scripts/update_kit.py). Its release format is shared with the producer; it does not execute candidate code or issue Git commands. Prefer existing configured read access. Missing source access is a specific blocker for Init, not permission to add sources, change credentials, or weaken policy.
 
@@ -38,6 +38,10 @@ python -B <update-folder>/scripts/update_kit.py --boundaries <policy> --kit-root
 
 The helper defaults to a non-writing check. It verifies the installed manifest/receipt against the published baseline. For older kits it checks at most three published packages; an explicit `--baseline-version <tag>` narrows that search. If no baseline is verifiable, stop and explain what remains unknown. Do not infer an unedited installation from file dates, a folder name, or a version label alone.
 
+Check the concrete update preview against explicitly referenced local
+protocol files and guidance pointers under the Init contract. Resolve any
+impact on the protocol or its wiring before applying the affected update.
+
 Local edits, local deletions, and incoming paths already occupied by unmanaged content are conflicts. Preserve them and pause the bundle. A managed file already identical to the candidate needs no replacement. Use an assigned-choice [Refine](../refine/SKILL.md) handoff for unresolved substantive intent, retaining the caller and relevant owner constraints. The helper has no force/automatic-merge option; after an explicitly authorized resolution, compare again.
 
 ## Apply and verify
@@ -50,7 +54,7 @@ Pin the preview's resolved version and archive hash when applying:
 python -B <update-folder>/scripts/update_kit.py --boundaries <policy> --kit-root <project>/Agents --source <source-id> --version <resolved-tag> --apply --expected-sha <preview-sha256> --notified
 ```
 
-`--notified` records that the caller already gave the required change notification. Supply `--approve operation:project-relative-path` only after actual specific approval for an ask gate; scope it to previewed paths/operations. It never overrides never, source identity, project scope, or personal-installation exclusions. Use `--reader-reports` for an established host report location.
+`--notified` records that the caller already gave the required change notification. Supply `--approve operation:project-relative-path` only after actual authorization for the previewed local ask decision under the boundary contract; scope it to previewed paths/operations. It never overrides never, source identity, project scope, or personal-installation exclusions. Use `--reader-reports` for an established host report location.
 
 The helper rechecks drift, holds a kit lock, backs up originals, journals its own changes, applies the coherent bundle including new/retired skills, and verifies written bytes before recording the installed release. Keep the current executor stable for the run; do not reload new instructions halfway through. A pending interrupted run blocks another update.
 

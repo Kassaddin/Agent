@@ -7,8 +7,9 @@ checksum. Make that one skill available to your agent, then invoke Setup for the
 current host project. Python 3.10+ and PyYAML 6.x are required. No sibling skills
 need to be installed first; bootstrap helpers are bundled from maintained sources.
 
-Setup previews and verifies a published complete kit, then installs it into the
-host's `Agents/` folder using `.agents/` for agent material. It preserves the
+Setup previews and verifies a complete kit from its fixed
+[release source](../.agents/skills/setup/references/setup-contract.md), then installs
+it into the host's `Agents/` folder using `.agents/` for agent material. It preserves the
 surrounding project structure. Installation writes the initial verified receipt.
 Init runs automatically only when no policy exists; otherwise Setup asks whether
 to run it. Init still needs concrete policy approval before activation.
@@ -52,8 +53,9 @@ Folder placement grants no access to the surrounding project.
 The complete released packages are under `Agents/.agents/skills/`. Copy their
 folders as siblings into your personal Codex skills directory, normally
 `~/.codex/skills` (`%USERPROFILE%\.codex\skills` on Windows), or the `skills`
-directory of your configured Codex home. Review existing customizations before
-replacing installed copies. Installed skills become available on your next turn.
+directory of your configured Codex home. You can compare the installed copies with
+the release manifest to check their currency. Review existing customizations before
+replacing them. Installed skills become available on your next turn.
 
 Repository development uses the same packages under `.agents/skills/`; personal
 installation does not move the project's documents or operational area.
@@ -65,13 +67,14 @@ choose to do so; extraction does not install or run anything.
 
 ## Shared flow rules
 
-All skills follow the [shared question and assumption rules](../.agents/skills/init/references/boundary-contract.md#questions-and-assumed-answers) and [workflow economy rules](../.agents/skills/init/references/boundary-contract.md#workflow-economy). A user question pauses the whole task. Scoped permission to assume an answer selects its stated recommended option and requires an explicit session-end list of assumed answers and resolutions. These rules preserve existing access and version-control limits.
+All skills follow the [shared question and assumption rules](../.agents/skills/init/references/boundary-contract.md#questions-and-assumed-answers) and [workflow economy rules](../.agents/skills/init/references/boundary-contract.md#workflow-economy). An interactive user question pauses the whole task. In separately requested unattended work, stop safely and report a required unresolved question or blocker. Scoped permission to assume an answer selects its stated recommended option and requires an explicit session-end list of assumed answers and resolutions. These rules preserve existing access and version-control limits.
 
 ## Use the skills
 
 | Skill | Intended result |
 | --- | --- |
 | `$orchestrator` | Coordination of temporary skill workers, acceptance, and consolidated delivery in this chat |
+| `$elevated-rights` | Explicit temporary consent for scoped local work |
 | `$setup` | Verified first installation of the complete project kit, followed by the applicable Init handoff |
 | `$init` | Approved, validated project access and engagement boundaries |
 | `$glossary` | Consistent terminology with agreement status preserved |
@@ -108,19 +111,16 @@ The host must support temporary sub-agents and the selected settings; unavailabl
 capabilities are reported instead of silently replaced with persistent chats.
 
 The single [routing configuration](../.agents/skills/orchestrator/references/profiles.yaml)
-maps every established production skill to a default model/effort profile.
-Orchestrator selects the least-intensive suitable approved profile and permits
-one automatic escalation per assignment. Urgency changes priority without
-lowering acceptance. Model names are configurable defaults, not cost or quality
-guarantees. Routing and activation do not grant resource or action permissions.
+maps each production skill to a default profile with ordered GPT, Claude, and
+Gemini candidates. Orchestrator selects the least-intensive suitable approved
+profile and the first candidate whose model and effort the host supports. A
+fallback within a profile does not use the assignment's one automatic escalation.
+Demanding effort escalation uses the current worker's model. Urgency changes
+priority without lowering acceptance. Routing grants no resource or action permissions.
 
-Workers send questions and permission requests to the master. Any user question
-pauses the whole task. `elevated rights` covers otherwise-permitted non-protected
-actions only for one identified worker's assigned scope, expires with that
-worker, and never transfers to a replacement. It cannot override prohibitions,
-read-only sources, separate implementation approval, or platform controls.
-See the [worker contract](../.agents/skills/orchestrator/references/worker-contract.md)
-for protected actions and exact grant limits.
+Workers send questions and permission requests to the master. The master
+applies the shared question rules across the task. It also handles the user's
+elevated rights command as a control operation for one identified worker.
 
 Workers return verified results and context deltas. The master accepts them and
 coordinates authorized Project Context reconciliation, keeping existing decisions
@@ -128,11 +128,21 @@ and one caller checkpoint rather than per-worker histories. Unavailable context
 maintenance is reported pending. Finished workers become inactive; the host may
 retain internal history. No persistent service or personal installation is added.
 
+## Grant temporary elevated rights
+
+Use an explicit `elevated rights` command in the task request or during work.
+In ordinary chat this applies to the agent performing the current task. In
+Orchestrator mode it applies to one identified worker's assignment. The agent
+states the scoped resources and effects before using the grant for eligible
+local `ask` decisions. Follow the [Init contract](../.agents/skills/init/references/elevated-rights-contract.md)
+for expiration, protected effects, and compatibility with host protocols.
+
 ## Retain out-of-scope topics
 
-Invoke `$backlog` or `$refine` to enable capture in the current conversation for
-the selected project. Capture may then continue during free-form discussion until
-you stop it. It is not enabled across other conversations or by adopting the kit.
+Invoke `$backlog` or start direct or whole-topic `$refine` to enable capture for
+the selected project in the current conversation. A bounded assigned-choice Refine
+handoff can use already active capture. Capture may continue during free-form
+discussion until you stop it.
 
 Backlog reuses the project's designated file; otherwise it proposes Markdown in
 the reader area, normally `docs/backlog.md`. It captures clear deferrals without
@@ -154,14 +164,14 @@ requirements; there are no file, line, or duration thresholds.
 
 Implement works across topics within available tools and permissions. It checks
 current state, makes the agreed changes, and verifies the result. For a new
-substantive choice it prompts the user through a bounded Refine handoff and
-pauses the entire task until the answer or an explicitly authorized recommended-answer assumption resolves the question.
+substantive choice it uses a bounded Refine handoff and follows the shared
+question rules.
 Refine completion alone is not implementation authorization.
 
-There is no mandatory document, audit, or correction sequence. Requested document
-synthesis uses To Document; a requested audit uses Smokes; acting on its report
-uses Fix when explicitly called. Short implementations can finish with a concise
-chat result, without another specification or report file.
+For a larger baseline, request To Document and then To Tasks before requesting
+implementation of one selected task at a time. A small implementation can finish
+with a concise chat result. A requested audit uses Smokes, and acting on its report
+uses Fix when explicitly called.
 
 ## Split a documented idea into tasks
 
@@ -210,7 +220,9 @@ and omits optional icons; no binary-asset exception is needed for the kit.
 
 Read accepted decisions and reasons in the designated human topic record.
 The caller's separate checkpoint holds operational continuation and references
-that record. There is one of each, not a new record for every skill.
+that record. Refine acts as the caller when invoked directly in the ordinary
+workflow. In Orchestrator mode the master maintains the caller checkpoint. Use
+one decision record and one checkpoint per topic.
 
 Readable audit/fix reports use the host's report location or the kit's
 `docs/reports/` fallback. They link to authoritative JSON under the agent area.
@@ -257,7 +269,7 @@ recursively deletes the host or silently reuses an occupied destination.
 
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v2.1.0`, then publish that same tag
+Build with an explicit tag such as `--version v2.3.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

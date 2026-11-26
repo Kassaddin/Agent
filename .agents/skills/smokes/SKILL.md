@@ -5,13 +5,11 @@ description: Audit generated artifacts for integrity, cross-links, duplication, 
 
 # Smokes
 
-Follow the shared [project layout](../init/references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Inspect generated artifacts and produce evidence-backed findings. Never repair, reformat, or regenerate inspected files. The only normal writes are the report and its working drafts in an authorized destination; for a no-write request, return the report in chat.
 
 Own audit findings, their evidence and classifications, and audit coverage. Report unsettled meaning as needing review; the audit does not resolve substantive content choices or apply corrections. Return report references, coverage, and blockers to a caller for its checkpoint. Checkpoint maintenance never permits editing inspected source records; return an unsaved checkpoint update when necessary.
 
-Read the [Init boundary contract](../init/references/boundary-contract.md) and active project boundaries first. Use the user's selected files or the caller's generated-artifact manifest. Include only dependencies needed to verify those files. Do not turn a small artifact review into a whole-project audit. Read-only sources remain read-only, and unverified link targets remain unverified rather than being declared missing.
+Read the [Init boundary contract](../init/references/boundary-contract.md), the [layout contract](../init/references/project-layout.md), and active project boundaries first. Use the user's selected files or the caller's generated-artifact manifest. Include only dependencies needed to verify those files. Do not turn a small artifact review into a whole-project audit. Read-only sources remain read-only, and unverified link targets remain unverified rather than being declared missing.
 
 ## Inspect
 

@@ -5,11 +5,12 @@ kit it owns detection, explanation, and the migration plan. Update owns approved
 migration execution/recovery and the later separate version update. Init owns
 permissions and activation; host integration is a separate concrete approval.
 
-The fixed source is `https://github.com/Kassaddin/Agent`, published packages only.
+The fixed source is `https://github.com/Kassaddin/Agents`, published packages only.
+It applies to Setup alone; Update uses the release source configured for the
+project, restricted to HTTPS GitHub sources.
 The only fresh kit destination is `<project>/Agents`, using `.agents/` internally.
-Require the fifteen-skill complete inventory including `project-context` and
-`orchestrator`, layout
-3/protocol 2, and kit guidance. Unknown sources, arbitrary occupied destinations,
+Require at least the core skills the Setup helper declares, including
+`project-context` and `orchestrator`, layout 3/protocol 2, and kit guidance. Unknown sources, arbitrary occupied destinations,
 or incompatible published assets stop the operation. Do not run candidate code.
 
 The whole `setup/` folder is independently distributable. Its generated
@@ -42,7 +43,9 @@ to the stated source/kit; it does not authorize general host traversal.
 Project integration previews a small host AGENTS.md pointer and exact old kit-link
 rewrites, obtains real approval, preserves unrelated bytes, and retains a backup.
 The generated kit catalog routes requests to project-local skill instructions;
-personal/global installation is separate. A declined or blocked integration is
+personal/global installation is separate and outside every kit workflow: a
+user-performed copy of the complete release skills folder, which no kit skill
+installs, updates, or verifies. A declined or blocked integration is
 reported as pending, not silently treated as full project configuration.
 
 Report installation, migration planning, activation, integration, and version

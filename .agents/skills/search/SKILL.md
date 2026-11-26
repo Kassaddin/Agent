@@ -5,15 +5,13 @@ description: Quietly locate files, paths, text, or remote records in sources aut
 
 # Search
 
-Follow the shared [project layout](../init/references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Retrieve evidence for a query without changing sources. Use this independently or when another workflow needs a location, passage, identifier, or other source result. Return results to the caller; the caller interprets them and continues its task. Do not start a refinement interview, edit documents, or implement anything described in a match.
 
 Own retrieved evidence, verified locators, and retrieval coverage. Stay within the assigned query and scope. Return conflicting evidence, unresolved interpretation, and blocked coverage to the caller; it owns substantive resolution and continuation. Supply retrieval status for its checkpoint without editing source records or creating a parallel project history.
 
 ## Boundaries and worker
 
-Read the [Init boundary contract](../init/references/boundary-contract.md) and the explicitly selected or layout-discovered active boundary file. Use the sibling Init validator; do not substitute a more permissive configuration. A malformed, missing, or draft policy cannot grant access. Search only explicitly approved resources; report missing setup to the caller without starting Init automatically.
+Read the [Init boundary contract](../init/references/boundary-contract.md), the [layout contract](../init/references/project-layout.md), and the explicitly selected or layout-discovered active boundary file. Use the sibling Init validator; do not substitute a more permissive configuration. A malformed, missing, or draft policy cannot grant access. Search only explicitly approved resources; report missing setup to the caller without starting Init automatically.
 
 When Orchestrator is active, the master alone dispatches this Search invocation using its approved configured profile. The assigned Search worker retrieves directly without another worker; even a trivial Search invocation remains assigned to that worker. Read [the Orchestrator worker contract](../orchestrator/references/worker-contract.md) when operating in this mode. The approved routing configuration supplies the explicit model selection; retain Search source, budget, coverage, and read-only restrictions. Outside this mode, apply the defaults below.
 

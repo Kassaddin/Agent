@@ -22,7 +22,7 @@ class SeparateContextTests(unittest.TestCase):
         self.data = deepcopy(f.data)
         self.data["schema_version"] = 2
         self.data["views"][0]["path"] = "Agents/.agents/context/project.md"
-        f.write(self.data["views"][0]["path"], "# Context\n\nHost orientation.\n")
+        f.write(self.data["views"][0]["path"], "# Project Context\n\nHost orientation.\n")
         self.checkpoint = "Agents/.agents/state/checkpoints/delivery.yaml"
         self.data["topics"][0]["checkpoint_path"] = self.checkpoint
         self.state = {"schema_version": 1, "topic": "delivery", "decision_record": {"resource": "project", "path": "DISCUSSION.md"},

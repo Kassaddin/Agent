@@ -5,13 +5,11 @@ description: Interview the user to establish or update project access, local and
 
 # Init
 
-Follow the shared [project layout](references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Establish the project's operating boundaries through questions and read-only access checks. Produce a uniform, manually editable `BOUNDARIES.yaml`. This skill has no dependency on the glossary or refinement skills: access boundaries must be established before their artifacts are created.
 
 Own boundary configuration and access-policy consistency. Resolve access-policy choices through this setup workflow. When called by another workflow, return the approved configuration, unresolved access, and actual save/validation status so the caller can maintain its continuation and checkpoint.
 
-Read [the boundary contract](references/boundary-contract.md) before interpreting rules and [the interview guide](references/interview.md) when conducting setup. Use [the template](assets/boundaries-template.yaml) and [the schema](references/boundaries.schema.json) to create the file. Use [version-control actions](references/version-control-actions.md) when classifying a command or repository API operation.
+Read [the boundary contract](references/boundary-contract.md) before interpreting rules, [the layout contract](references/project-layout.md) for the selected agent area, and [the interview guide](references/interview.md) when conducting setup. Use [the template](assets/boundaries-template.yaml) and [the schema](references/boundaries.schema.json) to create the file. Use [version-control actions](references/version-control-actions.md) when classifying a command or repository API operation.
 
 ## Conduct setup
 

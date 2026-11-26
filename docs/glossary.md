@@ -1,6 +1,6 @@
 # Glossary: Agent Skills
 
-Scope: Shared terminology of this project's fifteen reusable skills: `orchestrator`, `setup`, `init`, `glossary`, `refine`, `backlog`, `implement`, `create-skill`, `search`, `to-document`, `to-tasks`, `smokes`, `fix`, `project-context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
+Scope: Shared terminology of this project's sixteen reusable skills: `orchestrator`, `setup`, `init`, `elevated-rights`, `glossary`, `refine`, `backlog`, `implement`, `create-skill`, `search`, `to-document`, `to-tasks`, `smokes`, `fix`, `project-context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
 
 Agreed terms reflect explicit discussion agreements or meanings already specified in the approved skill contracts. Proposed terms are definitions inferred from current usage; their labels or boundaries still need agreement. Operational procedures and project decisions remain in the skills and `BOUNDARIES.yaml`.
 
@@ -119,6 +119,14 @@ Sources: [Project Context decision C4](topics/context/decisions.md#c4-layout-by-
 An operation with material potential for data loss, changes to active security or privacy controls, disclosure of personal or confidential information, or commitments beyond existing authorization.
 
 Source: Explicit user agreement during Orchestrator refinement; [accepted decision O5](topics/orchestrator/decisions.md#o5-protected-actions-and-temporary-grants).
+
+#### Elevated rights
+
+A temporary user approval for otherwise permitted, known, non-protected local actions, scoped to one established task, its resources, and one eligible recipient.
+
+Alias: Temporary elevated rights.
+
+Sources: [Init elevated rights contract](../.agents/skills/init/references/elevated-rights-contract.md), [Elevated rights decisions](topics/elevated-rights/decisions.md).
 
 #### act
 

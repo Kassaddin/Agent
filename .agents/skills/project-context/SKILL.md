@@ -5,13 +5,11 @@ description: Load, build, or refresh source-linked project context from its glos
 
 # Project Context
 
-Follow the shared [project layout](../init/references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Own derived project views, their source index, and freshness information. Use this to orient or resume a request without repeatedly reconstructing the whole project. The caller retains its request, substantive decisions, continuation, and delivery.
 
 ## Establish the operation
 
-Read the [Init boundary contract](../init/references/boundary-contract.md), active project boundaries, and applicable guidance before project access. Follow the [ownership contract](../refine/references/ownership-contract.md) for records, handoffs, and checkpoints; reuse already loaded, unchanged guidance. Use [Glossary](../glossary/SKILL.md) for canonical terminology and agreement status.
+Read the [Init boundary contract](../init/references/boundary-contract.md), the [layout contract](../init/references/project-layout.md), active project boundaries, and applicable guidance before project access. Follow the [ownership contract](../refine/references/ownership-contract.md) for records, handoffs, and checkpoints; reuse already loaded, unchanged guidance. Use [Glossary](../glossary/SKILL.md) for canonical terminology and agreement status.
 
 Use **Load** by default: read-only preparation for the caller's active request. **Build** creates the initial context files when requested. **Refresh** reconciles affected views after specified source changes. Build and Refresh require task authorization and matching write permissions. An authorized maintenance workflow may refresh after meaningful changes; otherwise return the needed refresh to the caller. Do not silently start background maintenance or another agent. In active Orchestrator mode, the master explicitly dispatches this operation as a worker; return its result/delta to the master, which serializes shared-context writes.
 

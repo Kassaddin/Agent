@@ -11,9 +11,9 @@ Own authorized execution, verification evidence, and the implementation outcome.
 
 Read the shared [boundary contract](../init/references/boundary-contract.md), current selected policy, [layout contract](../init/references/project-layout.md), and [ownership contract](../refine/references/ownership-contract.md). Apply them to sources, actions, delegation, and state. Missing boundaries permit only existing explicit authorization; never invent permissions or start Init automatically. Access-policy choices belong to Init.
 
-Use [Glossary](../glossary/SKILL.md) to reuse the baseline's agreed terminology and preserve proposed meanings. Assess a small task by **bounded scope, identifiable dependencies, and direct verification against agreed requirements**. Do not impose file, line, or duration thresholds. When these properties cannot be established, return the specific scope or readiness gap to Refine instead of silently broadening the task or forcing To Document.
+Use [Glossary](../glossary/SKILL.md) to reuse the baseline's agreed terminology and preserve proposed meanings. Assess a small task by **bounded scope, identifiable dependencies, and direct verification against agreed requirements**. Do not impose file, line, or duration thresholds. When these properties cannot be established, return the specific scope or readiness gap to Refine instead of silently broadening the task or forcing To Document. A baseline that is not a small task is delivered through To Document and To Tasks when the user requests them, then implemented one selected task at a time.
 
-Recover the relevant requirements, decisions, constraints, affected resources, and completion criteria from existing sources. Use Project Context Load when useful and [Search](../search/SKILL.md) for factual retrieval under its worker and access rules. Check current resource state before changing it; summaries and old checkpoints do not prove present state. Missing required contracts or dependencies block affected work; asking the user a question pauses the whole task under the boundary contract.
+Recover the relevant requirements, decisions, constraints, affected resources, and completion criteria from existing sources. Use Project Context Load when useful and [Search](../search/SKILL.md) for factual retrieval under its worker and access rules. Check current resource state before changing it; summaries and old checkpoints do not prove present state. Missing required contracts or dependencies block affected work; handle any required user question under the boundary contract.
 
 A selected [To Tasks](../to-tasks/SKILL.md) brief may identify a bounded part of
 one agreed parent baseline. Reuse its scope references and acceptance criteria;
@@ -30,7 +30,7 @@ Implement the complete agreed outcome with the smallest coherent set of changes.
 
 ## Resolve discoveries without restarting refinement
 
-When a new substantive choice appears, explain the choice and its consequence and **prompt the user** through an assigned-choice Refine handoff. Pause the entire task, including independent work, until the answer arrives or explicit scoped permission allows the stated recommended answer to be assumed under the boundary contract. Do not treat a recommendation or silence alone as the user's decision.
+When a new substantive choice appears, explain the choice and its consequence and use an assigned-choice Refine handoff. Follow the boundary contract's question rules for interactive work and separately requested unattended work. Preserve the prerequisite until the user answers or a separately authorized recommended-answer assumption resolves it.
 
 Pass only the unresolved choice, baseline references, relevant evidence and owner constraints, and expected return. Retain the caller's continuation. Resume the task after an answer or authorized assumed resolution within current authority; material scope or permission changes need their own resolution. Retrieve facts yourself rather than turning routine investigation into user decisions.
 
@@ -38,7 +38,7 @@ Pass only the unresolved choice, baseline references, relevant evidence and owne
 
 Check the actual result against every agreed requirement with proportionate evidence. Run meaningful behavioral tests when warranted; use direct inspection or artifact checks for simple changes. A successful file write alone is not verification. Correct in-scope failures and recheck the affected behavior. If verification is unavailable or blocked, report what was applied, what remains unverified, and its effect; do not claim full completion.
 
-Return the result, changed artifacts, verification evidence, limitations, blockers, and unmet requirements concisely. Complete the task only when the agreed outcome is fulfilled and the required checks pass. An unanswered user question pauses the whole task; other pending handoffs keep their dependent outcomes pending.
+Return the result, changed artifacts, verification evidence, limitations, blockers, and unmet requirements concisely. Complete the task only when the agreed outcome is fulfilled and the required checks pass. Report required questions and pending handoffs under the boundary contract.
 
 Keep accepted choices in the existing topic record and maintain its one separate checkpoint when sustained work needs it, with actual applied/verified states from artifact owners. A short task can finish in chat without creating another specification, report format, or history. Project Context Refresh is optional authorized maintenance.
 

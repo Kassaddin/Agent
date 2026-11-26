@@ -5,7 +5,7 @@ import json
 
 MODULES = {
     'init/scripts': ('validate_boundaries.py', 'project_layout.py', 'requirements.txt'),
-    'init/references': ('boundaries.schema.json', 'boundary-contract.md', 'project-layout.md', 'version-control-actions.md'),
+    'init/references': ('boundaries.schema.json', 'boundary-contract.md', 'elevated-rights-contract.md', 'project-layout.md', 'version-control-actions.md'),
     'smokes/scripts': ('validate_report.py', 'check_artifacts.py'),
     'smokes/references': ('report.schema.json',),
     'refine/references': ('checkpoint.schema.json',),

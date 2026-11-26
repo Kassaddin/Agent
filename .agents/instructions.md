@@ -18,7 +18,10 @@ file, loading only the relevant instructions/resources. A user invocation of
 reading its instructions alone does not. In that mode route every actual skill
 workflow through the master and a temporary worker, including dependencies.
 Workers inherit the mode and return handoff/question requests to the master
-instead of dispatching more workers. Existing boundary gates remain in force. The context skill is
+instead of dispatching more workers. Handle an explicit `elevated rights`
+command as specified in [Init's contract](skills/init/references/elevated-rights-contract.md);
+in Orchestrator mode this is a master control operation for one assigned worker.
+Existing boundary gates remain in force. The context skill is
 named `project-context`; its derived data remains under `context/`.
 
 The configured vault is read-only, not current, and maintained manually by the

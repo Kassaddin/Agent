@@ -11,7 +11,7 @@ For a present file, validate using [the validator](../scripts/validate_boundarie
 ## Decisions and approvals
 
 - `act`: proceed only within a requested task and matching source permissions.
-- `ask`: require specific authorization for the operation and affected resources. A clear existing authorization for that same operation can suffice; do not repeatedly ask after it is granted. Material changes to the change set require renewed authorization.
+- `ask`: require specific authorization for the operation and affected resources. A clear existing authorization for that same operation can suffice; do not repeatedly ask after it is granted. Material changes to the change set require renewed authorization. The [elevated rights contract](elevated-rights-contract.md) defines when an explicit temporary grant satisfies a local ask decision.
 - `never`: do not perform the operation under the current policy. Ordinary action approval is not an implicit policy amendment.
 - `user_only`: the agent does not execute the operation; the user performs it. This value is used for version-control operations.
 
@@ -19,7 +19,7 @@ User-authored policy changes are possible, but must be explicit and revalidated.
 
 ## Questions and assumed answers
 
-After posing any question to the user, pause the whole current task until the
+In interactive work, after posing any question to the user, pause the whole current task until the
 answer is received. Do not continue independent branches, edits, retrieval,
 handoffs, or other task progress while waiting. For a round of questions, wait
 for every answer before resuming. Silence, elapsed time, and a preselected option
@@ -31,12 +31,19 @@ processed or acted on while the question is pending. Gather retrievable facts
 before asking when they are needed to make the question useful. A pending search
 alone is not an unanswered user question and does not itself pause unrelated work.
 
+When the user separately requests unattended execution, stop the whole task
+safely at a required unresolved question, approval, or blocker. Preserve
+recovery evidence and report the exact issue and what remains pending. Keep
+Refine agreement and other prerequisites in place. A grant of elevated rights
+does not request unattended execution or authorize guessing. The scoped
+assumption rule below applies only when the user separately authorizes it.
+
 The exception is the user's explicit permission to assume answers within a
 specified scope. For each covered choice, always select its stated recommended
 answer and identify the resolution as assumed under that authorization. Establish
 the recommendation before selecting it; do not relabel an arbitrary choice as
 recommended afterward. If no justified recommendation exists or user-specific
-facts are required, ask and wait rather than inventing an answer. Routine details
+facts are required, use the applicable interactive or unattended rule. Routine details
 already delegated to the agent are not unanswered user questions.
 
 Record each assumed answer once in the existing topic record, or in the

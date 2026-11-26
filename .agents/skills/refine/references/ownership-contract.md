@@ -9,7 +9,8 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Skill | Owned information or artifact |
 | --- | --- |
 | Orchestrator | Delegated assignments, prerequisite/progress coordination, acceptance, and consolidated delivery; skill owners retain their artifacts |
-| Init | Boundary configuration and access-policy consistency |
+| Init | Boundary configuration, access-policy consistency, and permission meaning |
+| Elevated Rights | Explicit activation and live task grant handling in ordinary chat. In Orchestrator mode the master coordinates activation for one assigned worker. |
 | Glossary | Canonical definitions, aliases, and terminology agreement status |
 | Refine | Refinement process, decision rationale, and MVP baseline |
 | Implement | Authorized execution of agreed small-task baselines, verification evidence, and implementation outcomes |
@@ -23,6 +24,8 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Project Context | Derived project views, source index, and freshness information |
 | Setup | Standalone bootstrap, first installation/recovery, legacy detection/planning, and project-integration continuation |
 | Update | Shared release/receipt protocol, approved kit migration/recovery, later managed-file replacement, and update outcomes |
+
+No skill owns a personal skills-directory installation. It is a user-performed copy of the complete release skills folder; no kit skill installs, updates, or verifies it. Compare it with the release manifest to assess currency.
 
 The user remains the substantive decision-maker. Refine is the common resolution workflow for unresolved substantive content choices; the responsible owner supplies its constraints and records the resulting change in its artifact. Init continues handling access-policy choices. Routine delivery and access questions remain with the responsible workflow.
 
@@ -43,8 +46,9 @@ An agreed decision and an applied artifact update are separate states. Preserve 
 ## Deferred items
 
 [Backlog](../../backlog/SKILL.md) owns captured out-of-scope items in one reader-facing
-project file. It is active only in conversations where Backlog or Refine was
-invoked, not from project adoption or a context summary alone. When capture is
+project file. It is active only in conversations where Backlog or a direct or
+whole-topic Refine was invoked, not from project adoption, a context summary, or a
+bounded assigned-choice handoff alone. When capture is
 already active, a caller can supply an item and receive its ID and actual saved
 or unsaved status; caller write restrictions still apply. Search and Smokes never
 gain backlog-write authority through that handoff.
@@ -76,7 +80,7 @@ Keep one separate checkpoint in the selected agent area's `state/checkpoints/<to
 | Information | Responsible skill |
 | --- | --- |
 | Accepted decisions and reasons | Refine |
-| Objective, scope, caller, current step, handoff, blockers, and next action | Caller |
+| Objective, scope, caller, current step, handoff, blockers, and next action | Caller (Refine itself, when the user invoked it directly) |
 | Actual artifact update and verification status | Artifact owner |
 
 Record an update as pending, applied, or verified according to evidence. Agreement alone does not establish application; application alone does not establish successful verification. Preserve unrelated record sections and concurrent edits.

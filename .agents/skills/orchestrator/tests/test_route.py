@@ -24,10 +24,13 @@ class RoutingTests(unittest.TestCase):
         self.assertFalse(result['capabilities_checked'])
         self.assertEqual(result['automatic_escalations_used'], 0)
 
-    def test_all_other_distributable_workflows_have_defaults(self):
-        skills = SKILL.parent
-        expected = {folder.name for folder in skills.iterdir() if (folder / 'SKILL.md').is_file()} - {'orchestrator'}
-        self.assertEqual(set(self.config['skill_profiles']), expected)
+    def test_distributable_workflows_other_than_master_controls_have_defaults(self):
+        controls = {'orchestrator', 'elevated-rights'}
+        skills = {folder.name for folder in SKILL.parent.iterdir() if (folder / 'SKILL.md').is_file()}
+        self.assertEqual(set(self.config['skill_profiles']), skills - controls)
+        for control in controls:
+            with self.subTest(control=control), self.assertRaises(routing.RouteError):
+                routing.route(self.config, control)
 
     def test_implementation_and_refinement_route_differently(self):
         self.assertEqual(routing.route(self.config, 'implement')['profile'], 'Standard')
@@ -35,7 +38,8 @@ class RoutingTests(unittest.TestCase):
 
     def test_complex_search_can_select_stronger_initial_profile(self):
         result = routing.route(self.config, 'search', profile='Demanding')
-        self.assertEqual(result['model'], 'gpt-6.2-astra')
+        self.assertEqual(result['model'], 'gpt-6.2-sol')
+        self.assertEqual(result['effort'], 'high')
         self.assertEqual(result['automatic_escalations_used'], 0)
 
     def test_standard_requires_known_unused_escalation(self):
@@ -53,7 +57,8 @@ class RoutingTests(unittest.TestCase):
 
     def test_demanding_escalates_effort_on_same_model(self):
         initial = routing.route(self.config, 'smokes')
-        result = routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0)
+        result = routing.route(self.config, 'smokes', escalate_from='Demanding',
+                               used_escalations=0, current_model=initial['model'])
         self.assertEqual(result['model'], initial['model'])
         self.assertEqual(result['effort'], 'xhigh')
 
@@ -67,10 +72,48 @@ class RoutingTests(unittest.TestCase):
         with self.assertRaises(routing.RouteError):
             routing.route(self.config, 'implement', used_escalations=1)
 
-    def test_unsupported_host_route_is_blocked_without_fallback(self):
+    def test_unsupported_host_route_is_blocked_when_no_candidate_matches(self):
         result = routing.route(self.config, 'search', capabilities={'gpt-6.2-sol': ['medium']})
         self.assertEqual(result['status'], 'blocked')
         self.assertEqual(result['proposed_route']['profile'], 'Routine')
+
+    def test_host_without_gpt_falls_back_to_claude_then_gemini(self):
+        claude = routing.route(self.config, 'implement', capabilities={'claude-sonnet-5.5': ['medium'], 'gemini-4-carbon': ['medium']})
+        self.assertEqual((claude['status'], claude['model']), ('ready', 'claude-sonnet-5.5'))
+        gemini = routing.route(self.config, 'implement', capabilities={'gemini-4-carbon': ['low', 'medium']})
+        self.assertEqual((gemini['status'], gemini['model']), ('ready', 'gemini-4-carbon'))
+
+    def test_candidate_with_unsupported_effort_is_skipped(self):
+        result = routing.route(self.config, 'refine', capabilities={'gpt-6.2-sol': ['medium'], 'claude-opus-5.5': ['high']})
+        self.assertEqual((result['model'], result['effort']), ('claude-opus-5.5', 'high'))
+
+    def test_demanding_escalation_stays_on_current_model_or_blocks(self):
+        capabilities = {'gpt-6.2-sol': ['xhigh'], 'gemini-4-neon': ['high']}
+        initial = routing.route(self.config, 'smokes', capabilities=capabilities)
+        self.assertEqual((initial['status'], initial['model'], initial['effort']), ('ready', 'gemini-4-neon', 'high'))
+        with self.assertRaisesRegex(routing.RouteError, 'requires the current worker model'):
+            routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0,
+                          capabilities=capabilities)
+        blocked = routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0,
+                                capabilities=capabilities, current_model=initial['model'])
+        self.assertEqual(blocked['status'], 'blocked')
+        self.assertEqual(blocked['proposed_route']['model'], initial['model'])
+        capabilities[initial['model']].append('xhigh')
+        result = routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0,
+                               capabilities=capabilities, current_model=initial['model'])
+        self.assertEqual((result['status'], result['model'], result['effort'], result['automatic_escalations_used']),
+                         ('ready', initial['model'], 'xhigh', 1))
+        with self.assertRaises(routing.RouteError):
+            routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0, current_model='unknown-model')
+
+    def test_candidate_configuration_is_validated(self):
+        for mutate in (lambda c: c['profiles']['Routine'].update(candidates=[]),
+                       lambda c: c['profiles']['Routine']['candidates'].append(dict(c['profiles']['Routine']['candidates'][0])),
+                       lambda c: c['profiles']['Standard']['candidates'][0].update(escalated_effort='high')):
+            config = deepcopy(self.config)
+            mutate(config)
+            with self.subTest(), self.assertRaises(routing.RouteError):
+                routing.validate_config(config)
 
     def test_supported_host_route_is_confirmed(self):
         result = routing.route(self.config, 'search', capabilities={'gpt-6-luna': ['low']})
@@ -78,7 +121,8 @@ class RoutingTests(unittest.TestCase):
         self.assertTrue(result['capabilities_checked'])
 
     def test_host_without_xhigh_blocks_demanding_escalation(self):
-        result = routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0, capabilities={'gpt-6.2-astra': ['high']})
+        result = routing.route(self.config, 'smokes', escalate_from='Demanding', used_escalations=0,
+                               capabilities={'gpt-6.2-sol': ['high']}, current_model='gpt-6.2-sol')
         self.assertEqual(result['status'], 'blocked')
 
     def test_new_local_skill_needs_explicit_profile(self):
@@ -91,15 +135,16 @@ class RoutingTests(unittest.TestCase):
         model = initial['model']
         available = {model: ['high', 'xhigh']}
         route = routing.route(self.config, 'local-lore', escalate_from=initial['profile'],
-                              used_escalations=0, capabilities=available)
+                              used_escalations=0, capabilities=available, current_model=model)
         self.assertEqual((route['status'], route['model'], route['effort'], route['automatic_escalations_used']),
                          ('ready', model, 'xhigh', 1))
         unsupported = routing.route(self.config, 'local-lore', escalate_from=initial['profile'],
-                                    used_escalations=0, capabilities={model: ['high']})
+                                    used_escalations=0, capabilities={model: ['high']}, current_model=model)
         self.assertEqual(unsupported['status'], 'blocked')
         with self.assertRaises(routing.RouteError):
             routing.route(self.config, 'local-lore', escalate_from=initial['profile'],
-                          used_escalations=route['automatic_escalations_used'], capabilities=available)
+                          used_escalations=route['automatic_escalations_used'], capabilities=available,
+                          current_model=model)
 
     def cli(self, *arguments):
         with redirect_stdout(io.StringIO()) as stdout:
@@ -129,6 +174,13 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual((status, result['status']), (3, 'blocked'))
         status, result = self.cli(*args, '--capabilities', '{"gpt-6-luna":["low"]}')
         self.assertEqual((status, result['status'], result['capabilities_checked']), (0, 'ready', True))
+
+    def test_cli_demanding_effort_requires_current_model(self):
+        args = ('--skill', 'smokes', '--escalate-from', 'Demanding', '--used-escalations', '0')
+        status, result = self.cli(*args)
+        self.assertEqual((status, result['status']), (2, 'error'))
+        status, result = self.cli(*args, '--current-model', 'gemini-4-neon')
+        self.assertEqual((status, result['model'], result['effort']), (0, 'gemini-4-neon', 'xhigh'))
 
     def test_disabling_automatic_escalation_is_respected(self):
         self.config['max_automatic_escalations'] = 0

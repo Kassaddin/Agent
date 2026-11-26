@@ -16,9 +16,26 @@ from bundle_setup import bundle
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills/update/scripts"))
 from release_format import MANIFEST, make_manifest, json_bytes
 
-PACKAGES = ("backlog", "project-context", "create-skill", "fix", "glossary", "implement", "init", "orchestrator", "refine", "search", "setup", "smokes", "to-document", "to-tasks", "update")
+PACKAGES = ("backlog", "project-context", "create-skill", "elevated-rights", "fix", "glossary", "implement", "init", "orchestrator", "refine", "search", "setup", "smokes", "to-document", "to-tasks", "update")
 EXCLUDED = {"__pycache__", ".pytest_cache", ".git", ".venv", "node_modules"}
 EXTENSIONS = {".md", ".yaml", ".yml", ".json", ".py", ".txt"}
+SETUP_PATH = "Agents/.agents/skills/setup/"
+SETUP_DOCUMENT_REPOSITORY = re.compile(rb"`https://github\.com/Kassaddin/Agents`")
+SETUP_REPOSITORY_REFERENCES = {
+    SETUP_PATH + 'SKILL.md': (SETUP_DOCUMENT_REPOSITORY,),
+    SETUP_PATH + 'references/setup-contract.md': (SETUP_DOCUMENT_REPOSITORY,),
+    SETUP_PATH + 'scripts/setup_kit.py': (
+        re.compile(rb"^REPOSITORY = 'Kassaddin/Agents'\r?$", re.M),
+    ),
+    SETUP_PATH + 'tests/test_setup.py': (
+        re.compile(
+            rb"^ {8}policy\['resources'\]\['remote'\] = \[\{'id': 'kit', "
+            rb"'url': 'https://github\.com/Kassaddin/Agents\.git',", re.M,
+        ),
+        re.compile(rb"^ {8}self\.source\.repository = 'Kassaddin/Agents'\r?$", re.M),
+        re.compile(rb"^ {8}self\.source\.repository = 'Kassaddin/Agent'\r?$", re.M),
+    ),
+}
 
 
 def build(project_root, version):
@@ -64,15 +81,14 @@ def build(project_root, version):
             raw = raw.replace(b'<!-- generated-skill-catalog -->', ('| Skill | When to use | Instructions |\n| --- | --- | --- |\n' + '\n'.join(rows)).encode())
         payload[name] = raw.replace(b"(../../docs/guide.md)", b"(docs/guide.md)") if name == "Agents/README.md" else raw
     for name, raw in payload.items():
-        for marker in (b"C:/Users/", b"C:\\Users\\", b"G:/VAULT/", b"Kassaddin/Agent"):
-            if marker.lower() in raw.lower():
-                if marker == b"Kassaddin/Agent" and name in {
-                    "Agents/.agents/skills/setup/SKILL.md",
-                    "Agents/.agents/skills/setup/references/setup-contract.md",
-                    "Agents/.agents/skills/setup/scripts/setup_kit.py",
-                }:
-                    continue  # User-approved fixed release source; no other identity exception.
-                raise ValueError("A project-specific path or repository identity needs review before sharing")
+        scrutinized = raw
+        approvals = SETUP_REPOSITORY_REFERENCES.get(name, ())
+        for approved in approvals:
+            scrutinized = approved.sub(b'', scrutinized, count=1)
+        if any(marker.lower() in scrutinized.lower() for marker in (
+            b"C:/Users/", b"C:\\Users\\", b"G:/VAULT/", b"Kassaddin/Agent",
+        )):
+            raise ValueError(f"A project-specific path or repository identity needs review before sharing: {name}")
     manifest = make_manifest({name.removeprefix("Agents/"): raw for name, raw in payload.items()}, version)
     payload["Agents/" + MANIFEST] = json_bytes(manifest)
     memory = io.BytesIO()

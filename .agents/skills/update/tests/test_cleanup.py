@@ -150,7 +150,13 @@ class CleanupTests(unittest.TestCase):
         preview = installer.plan()
         self.assertEqual(installer.apply(preview, expected_sha=preview['archive_sha256'], notified=True)['status'], 'installed')
         host = self.root / 'AGENTS.md'
-        host.write_bytes(b'User rules.\nSee Agents/.agent/instructions.md\n')
+        local_protocol = self.root / 'docs/Agents/.agent/elevated-rights.md'
+        local_protocol.parent.mkdir(parents=True)
+        local_protocol.write_bytes(b'# Host protocol\n')
+        local_pointer = b'[Host protocol](docs/Agents/.agent/elevated-rights.md)'
+        nested_pointer = b'[Other instructions](docs/Agents/.agent/instructions.md)'
+        host.write_bytes(b'User rules.\nSee Agents/.agent/instructions.md\n'
+                         + local_pointer + b'\n' + nested_pointer + b'\n')
         original = host.read_bytes()
         preview = integrate_project.plan(self.root, self.policy)
         self.assertEqual(host.read_bytes(), original)
@@ -158,7 +164,13 @@ class CleanupTests(unittest.TestCase):
         result = integrate_project.apply(preview, approved=True, expected_sha=preview['after_sha256'])
         self.assertEqual(result['status'], 'integrated')
         self.assertIn(b'User rules.\n', host.read_bytes())
-        self.assertNotIn(b'Agents/.agent/', host.read_bytes())
+        self.assertEqual(preview['reference_updates'], [
+            {'line': 2, 'from': 'Agents/.agent/instructions.md', 'to': 'Agents/.agents/instructions.md'},
+        ])
+        self.assertIn(b'See Agents/.agents/instructions.md', host.read_bytes())
+        self.assertIn(local_pointer, host.read_bytes())
+        self.assertIn(nested_pointer, host.read_bytes())
+        self.assertEqual(local_protocol.read_bytes(), b'# Host protocol\n')
         self.assertEqual((self.kit / '.agents/state/integration/host-original.bin').read_bytes(), original)
         self.assertEqual(integrate_project.plan(self.root, self.policy)['status'], 'already_integrated')
 

@@ -10,6 +10,7 @@ import yaml
 
 PROFILE_ORDER = ('Routine', 'Standard', 'Demanding')
 EFFORT_ORDER = ('low', 'medium', 'high', 'xhigh', 'max', 'ultra')
+MAX_CANDIDATES = 8
 DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / 'references/profiles.yaml'
 
 
@@ -37,7 +38,7 @@ StrictLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, uni
 def validate_config(data):
     if not isinstance(data, dict) or set(data) != {'schema_version', 'max_automatic_escalations', 'profiles', 'skill_profiles'}:
         raise RouteError('Unsupported profile configuration fields')
-    if type(data['schema_version']) is not int or data['schema_version'] != 1:
+    if type(data['schema_version']) is not int or data['schema_version'] != 2:
         raise RouteError('Unsupported profile configuration version')
     limit = data['max_automatic_escalations']
     if type(limit) is not int or not 0 <= limit <= 1:
@@ -46,17 +47,27 @@ def validate_config(data):
     if not isinstance(profiles, dict) or set(profiles) != set(PROFILE_ORDER):
         raise RouteError('Configure Routine, Standard, and Demanding profiles')
     for name, profile in profiles.items():
-        keys = {'model', 'effort'}
-        if not isinstance(profile, dict) or not keys <= set(profile) or set(profile) - keys - {'escalated_effort'}:
+        if not isinstance(profile, dict) or set(profile) != {'candidates'}:
             raise RouteError('Invalid profile fields')
-        if not isinstance(profile['model'], str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:/-]*', profile['model']):
-            raise RouteError('Invalid model identifier')
-        if profile['effort'] not in EFFORT_ORDER:
-            raise RouteError('Invalid initial effort')
-        if 'escalated_effort' in profile:
-            effort = profile['escalated_effort']
-            if name != 'Demanding' or effort not in EFFORT_ORDER or EFFORT_ORDER.index(effort) <= EFFORT_ORDER.index(profile['effort']):
-                raise RouteError('Only Demanding supports a higher configured escalation effort')
+        candidates = profile['candidates']
+        if not isinstance(candidates, list) or not 1 <= len(candidates) <= MAX_CANDIDATES:
+            raise RouteError('Each profile needs an ordered list of candidate models')
+        models = set()
+        for candidate in candidates:
+            keys = {'model', 'effort'}
+            if not isinstance(candidate, dict) or not keys <= set(candidate) or set(candidate) - keys - {'escalated_effort'}:
+                raise RouteError('Invalid candidate fields')
+            if not isinstance(candidate['model'], str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:/-]*', candidate['model']):
+                raise RouteError('Invalid model identifier')
+            if candidate['model'] in models:
+                raise RouteError('Candidate models must be unique within a profile')
+            models.add(candidate['model'])
+            if candidate['effort'] not in EFFORT_ORDER:
+                raise RouteError('Invalid initial effort')
+            if 'escalated_effort' in candidate:
+                effort = candidate['escalated_effort']
+                if name != 'Demanding' or effort not in EFFORT_ORDER or EFFORT_ORDER.index(effort) <= EFFORT_ORDER.index(candidate['effort']):
+                    raise RouteError('Only Demanding supports a higher configured escalation effort')
     mapping = data['skill_profiles']
     if not isinstance(mapping, dict) or not mapping:
         raise RouteError('A skill profile mapping is required')
@@ -76,7 +87,7 @@ def load_config(path=DEFAULT_CONFIG):
     return validate_config(yaml.load(raw, Loader=StrictLoader))
 
 
-def route(config, skill, *, profile=None, escalate_from=None, used_escalations=None, capabilities=None):
+def route(config, skill, *, profile=None, escalate_from=None, used_escalations=None, capabilities=None, current_model=None):
     validate_config(config)
     if not isinstance(skill, str) or not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', skill):
         raise RouteError('A canonical skill or assignment name is required')
@@ -109,20 +120,32 @@ def route(config, skill, *, profile=None, escalate_from=None, used_escalations=N
         else:
             name = escalate_from
         used_escalations += 1
-    effort = config['profiles'][name]['effort']
-    if name == escalate_from:
-        effort = config['profiles'][name].get('escalated_effort')
-        if effort is None:
-            raise RouteError('No stronger configured route is available')
-    selected = {'skill': skill, 'profile': name, 'model': config['profiles'][name]['model'],
-                'effort': effort, 'automatic_escalations_used': used_escalations}
-    if capabilities is not None:
-        if not isinstance(capabilities, dict) or any(not isinstance(model, str) or not isinstance(efforts, list) or not all(isinstance(value, str) for value in efforts) for model, efforts in capabilities.items()):
-            raise RouteError('Capabilities must map host model IDs to supported effort lists')
-        if effort not in capabilities.get(selected['model'], []):
-            return {'status': 'blocked', 'reason': 'Selected model/effort is not supported by supplied host capabilities',
-                    'proposed_route': selected}
-    return {'status': 'ready', 'capabilities_checked': capabilities is not None, **selected}
+    escalate_effort = name == escalate_from
+    if escalate_effort and (not isinstance(current_model, str) or not current_model):
+        raise RouteError('Demanding effort escalation requires the current worker model')
+    options = []
+    for candidate in config['profiles'][name]['candidates']:
+        if escalate_effort and candidate['model'] != current_model:
+            continue
+        effort = candidate.get('escalated_effort') if escalate_effort else candidate['effort']
+        if effort is not None:
+            options.append((candidate['model'], effort))
+    if not options:
+        raise RouteError('No stronger configured route is available')
+
+    def describe(option):
+        return {'skill': skill, 'profile': name, 'model': option[0],
+                'effort': option[1], 'automatic_escalations_used': used_escalations}
+
+    if capabilities is None:
+        return {'status': 'ready', 'capabilities_checked': False, **describe(options[0])}
+    if not isinstance(capabilities, dict) or any(not isinstance(model, str) or not isinstance(efforts, list) or not all(isinstance(value, str) for value in efforts) for model, efforts in capabilities.items()):
+        raise RouteError('Capabilities must map host model IDs to supported effort lists')
+    for option in options:
+        if option[1] in capabilities.get(option[0], []):
+            return {'status': 'ready', 'capabilities_checked': True, **describe(option)}
+    return {'status': 'blocked', 'reason': 'No candidate model/effort is supported by supplied host capabilities',
+            'proposed_route': describe(options[0])}
 
 
 def main(argv=None):
@@ -133,6 +156,7 @@ def main(argv=None):
     parser.add_argument('--escalate-from', choices=PROFILE_ORDER)
     parser.add_argument('--used-escalations', type=int, help='Known assignment count, required for escalation')
     parser.add_argument('--capabilities', help='JSON object supplied from actual host model/effort metadata')
+    parser.add_argument('--current-model', help='Current worker model, required for Demanding effort escalation')
     args = parser.parse_args(argv)
     try:
         capabilities = None
@@ -142,7 +166,7 @@ def main(argv=None):
                 raise RouteError('Capabilities must be supplied as a JSON object')
         result = route(load_config(args.config), args.skill, profile=args.profile,
                        escalate_from=args.escalate_from, used_escalations=args.used_escalations,
-                       capabilities=capabilities)
+                       capabilities=capabilities, current_model=args.current_model)
     except (OSError, UnicodeError, ValueError, yaml.YAMLError):
         # Do not echo malformed config/JSON snippets that could contain private text.
         print(json.dumps({'status': 'error', 'reason': 'Invalid or unreadable routing input/configuration'}))

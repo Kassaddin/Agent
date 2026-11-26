@@ -2,6 +2,7 @@
 from pathlib import Path
 import argparse
 import os
+import re
 import sys
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'init/scripts'))
@@ -11,6 +12,32 @@ from release_format import sha, json_bytes, MANIFEST, strict_json
 
 MARKER = b'<!-- agents-kit:v3 -->'
 POINTER = MARKER + b'\nRead [Agents kit guidance](Agents/.agents/instructions.md) for project skill routing.\n'
+LEGACY_POINTERS = {
+    b'Agents/.agent/instructions.md': b'Agents/.agents/instructions.md',
+    b'Agents/.agent/skills/context/SKILL.md': b'Agents/.agents/skills/project-context/SKILL.md',
+    b'Agents/.agents/skills/context/SKILL.md': b'Agents/.agents/skills/project-context/SKILL.md',
+}
+# Accept complete root-relative destinations in links or ordinary prose.
+LEGACY_REFERENCE = re.compile(
+    rb'(?<![^\s(\[<`"\'])(\./)?(' + b'|'.join(map(re.escape, LEGACY_POINTERS))
+    + rb')(?=$|[\s)\]>`"\'#]|[.,:;](?=$|\s))'
+)
+
+
+def rewrite_legacy_pointers(current):
+    changes = []
+    line, offset = 1, 0
+
+    def replace(match):
+        nonlocal line, offset
+        line += current.count(b'\n', offset, match.start())
+        offset = match.end()
+        prefix = match[1] or b''
+        target = prefix + LEGACY_POINTERS[match[2]]
+        changes.append({'line': line, 'from': match[0].decode('ascii'), 'to': target.decode('ascii')})
+        return target
+
+    return LEGACY_REFERENCE.sub(replace, current), changes
 
 def plan(project_root, boundaries=None, approvals=()):
     root = Path(os.path.abspath(project_root))
@@ -34,10 +61,11 @@ def plan(project_root, boundaries=None, approvals=()):
     if raw is not None and len(raw) > 2 * 1024 * 1024:
         raise Blocked('Host instructions exceed the bounded integration size')
     current = raw or b''
-    migrated = current.replace(b'Agents/.agent/', b'Agents/.agents/').replace(b'Agents/.agents/skills/context/', b'Agents/.agents/skills/project-context/')
+    migrated, reference_updates = rewrite_legacy_pointers(current)
     desired = migrated + (b'\n\n' if migrated else b'') + POINTER
     return {'status': 'approval_required', 'path': str(path), 'before_sha256': sha(raw) if raw is not None else None,
-            'after_sha256': sha(desired), 'append': POINTER.decode(), 'reference_updates': ['Agents/.agent/ -> Agents/.agents/', 'Agents/.agents/skills/context/ -> Agents/.agents/skills/project-context/'] if migrated != current else [], 'before': raw, 'desired': desired, 'access': access}
+            'after_sha256': sha(desired), 'append': POINTER.decode(), 'reference_updates': reference_updates,
+            'before': raw, 'desired': desired, 'access': access}
 
 def apply(preview, *, approved=False, expected_sha=None):
     if preview['status'] == 'already_integrated':

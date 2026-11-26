@@ -5,15 +5,13 @@ description: Refine an idea or decision on any topic into a complete MVP baselin
 
 # Refine Ideas
 
-Follow the shared [project layout](../init/references/project-layout.md) for the selected agent area, established host document locations, separate checkpoints, and report destinations. Adoption does not automatically reorganize host content or overwrite entry files.
-
 Own the refinement process, decision rationale, and MVP baseline. For a direct refinement request, develop its first complete MVP baseline. For a caller's handoff, resolve only its assigned choices and return. Apply this to personal, creative, organizational, academic, and technical topics, with depth appropriate to the objective and stakes.
 
 In this skill, **MVP (minimum viable product)** means the smallest coherent version of the intended outcome within the agreed initial scope. The **MVP baseline** is the refined description of that version, including its requirements, decisions, and limits. For a question or decision, the baseline may be a reasoned answer or decision framework. It may be delivered in chat or a discussion record.
 
 ## Boundaries and dependencies
 
-Before project-resource access, read and follow the shared [boundary contract](../init/references/boundary-contract.md) and any explicitly selected or layout-discovered boundary file. It governs access, delegation, and actions across this workflow; do not start Init automatically. Missing boundaries allow only existing explicit authorization or work in chat, as the contract describes.
+Before project-resource access, read and follow the shared [boundary contract](../init/references/boundary-contract.md), the shared [layout contract](../init/references/project-layout.md), and any explicitly selected or layout-discovered boundary file. It governs access, delegation, and actions across this workflow; do not start Init automatically. Missing boundaries allow only existing explicit authorization or work in chat, as the contract describes.
 
 Before refining, read and follow [Glossary](../glossary/SKILL.md), unless already loaded in this context. Establish or locate the topic's glossary and maintain it as meanings become clear. Resolve linked paths relative to this skill's folder. If this required dependency is missing, report the missing path and request its restoration before continuing the dependent workflow. Keep proposed terminology distinct from agreed terminology.
 
@@ -31,7 +29,7 @@ Propose the smallest coherent scope that satisfies the stated objective and requ
 
 Organize unresolved questions as a dependency graph: a question may have several prerequisites. Ask useful questions whose prerequisites are sufficiently established for their answers to be meaningful. A prerequisite remains blocking when its unresolved alternatives would materially change a dependent question or its answer.
 
-Group independent questions into manageable rounds, prioritizing those that could change the direction. A question that depends on an answer still pending in the same round belongs to a later round. After asking a round, follow the boundary contract's whole-task wait until every answer is received or a scoped recommended-answer assumption is authorized. Reassess dependencies after resolution or new evidence; avoid presenting every possible branch at once.
+Group independent questions into manageable rounds, prioritizing those that could change the direction. A question that depends on an answer still pending in the same round belongs to a later round. Follow the boundary contract's question rules, including the interactive whole-task wait and the stop-and-report rule for separately requested unattended work. Preserve required choices and approvals until resolved. Reassess dependencies after resolution or new evidence; avoid presenting every possible branch at once.
 
 Ask the user to resolve choices that materially affect the objective, scope, priorities, constraints, or substantive trade-offs. Manage question ordering, evidence gathering, and routine workflow choices within established authority. Explain why a question matters when that is unclear. Offer options and a recommendation when useful, with relevant trade-offs and wording that makes disagreement easy. A recommendation or provisional assumption is not an agreed decision.
 
@@ -45,13 +43,15 @@ For factual retrieval, follow Search's preference for one bounded worker and use
 
 Treat a pending search as an unresolved prerequisite for its dependent questions. Before any user question, other authorized preparation may continue. Once a question is asked, the shared whole-task wait also gates new searches and processing returned evidence. Consume search results after that gate is satisfied and assess relevance and coverage yourself; results do not establish the user's preferences or decisions.
 
-When a relevant fact remains unavailable, identify it as unknown. Label technical working hypotheses and verify them; they are not user answers. An assumption standing in for a user answer requires explicit permission, selection of the stated recommended option, and the boundary contract's session-end accounting. Otherwise ask and wait. Do not invent user facts, agreement, or access approval.
+When a relevant fact remains unavailable, identify it as unknown. Label technical working hypotheses and verify them; they are not user answers. An assumption standing in for a user answer requires explicit permission, selection of the stated recommended option, and the boundary contract's session-end accounting. Otherwise apply the shared question rules. Do not invent user facts, agreement, or access approval.
 
 ## Capture deferred topics
 
-Invoking Refine enables [Backlog](../backlog/SKILL.md) capture in this conversation
-for the selected project, including later free-form discussion, unless the user
-stops capture. Read Backlog when an out-of-scope item arises and pass its meaning,
+A direct or whole-topic Refine invocation enables [Backlog](../backlog/SKILL.md)
+capture in this conversation for the selected project, including later free-form
+discussion, unless the user stops capture. A bounded assigned-choice handoff from
+another skill does not enable capture; it uses capture only when already active.
+Read Backlog when an out-of-scope item arises and pass its meaning,
 scope/exclusion evidence, source, and origin. Its explicit dependency hook does
 not rely on ambient skill selection or enable other conversations.
 
@@ -70,7 +70,7 @@ Track facts and sources, user-provided context, constraints and preferences, agr
 
 For sustained work, a requested record, or a handoff across sessions, maintain the topic's single designated reader-facing decision record under the ownership contract. Reuse a suitable host record; propose the layout contract's topic destination only when one is needed and writing is authorized. Adapt [discussion-template.md](assets/discussion-template.md), keeping useful sections and removing drafting prompts. Capture accepted choices and reasons, reference canonical definitions, and distinguish agreement from pending artifact updates.
 
-Maintain decision entries; the caller maintains the separate resume checkpoint and each artifact owner supplies update and verification status. For a new checkpoint, adapt [checkpoint-template.yaml](assets/checkpoint-template.yaml) and validate its fields against the shared checkpoint schema. Update the relevant sections instead of creating separate per-skill histories. Delivered documents remain faithful representations of this record.
+Maintain decision entries; the caller maintains the separate resume checkpoint and each artifact owner supplies update and verification status. When the user invokes Refine directly, Refine acts as the caller and maintains that checkpoint. For a new checkpoint, adapt [checkpoint-template.yaml](assets/checkpoint-template.yaml) and validate its fields against the shared checkpoint schema. Update the relevant sections instead of creating separate per-skill histories. Delivered documents remain faithful representations of this record.
 
 A short discussion may stay in chat. Respect read-only and planning-only requests by keeping proposed updates in the response. Resume from existing records and unresolved questions when available.
 
@@ -90,6 +90,6 @@ An unresolved question blocks completion when it prevents a coherent definition 
 
 When the criteria are met, deliver the baseline and explain why it is complete, with meaningful remaining uncertainty. No separate "are we done?" confirmation is required. Preserve the distinction between agreement and recommendation. Completion does not authorize implementing the idea, creating unrelated artifacts, or publishing a document.
 
-Refine establishes the first complete MVP baseline. The planned `iterate` skill will develop that baseline through later feedback and changes; it is not yet available and is not a dependency of Refine. Preserve deferred work for that future step without invoking it.
+Refine establishes the first complete MVP baseline. Later feedback and changes to it are future work with no skill in this kit; Refine has no dependency on one. Record deferred work as such without invoking anything.
 
-Continue only into requested delivery. A requested final document uses [To Document](../to-document/SKILL.md); explicit implementation of an agreed small-task baseline uses [Implement](../implement/SKILL.md). These are independent requested outcomes, not a mandatory sequence. Without a delivery request, return the refinement result directly. If a needed skill is unavailable, return the baseline and identify the outstanding request; never treat agreement alone as implementation authority.
+Continue only into requested delivery. A requested final document uses [To Document](../to-document/SKILL.md); a requested decomposition of a documented baseline into bounded tasks uses [To Tasks](../to-tasks/SKILL.md); explicit implementation of an agreed small-task baseline, or of one selected task brief, uses [Implement](../implement/SKILL.md). These are independent requested outcomes, not a mandatory sequence. A baseline that is not a small task reaches Implement only through To Document, then To Tasks, and then one selected task at a time. Without a delivery request, return the refinement result directly. If a needed skill is unavailable, return the baseline and identify the outstanding request; never treat agreement alone as implementation authority.

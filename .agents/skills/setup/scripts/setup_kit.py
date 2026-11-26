@@ -18,8 +18,12 @@ import update_kit as shared
 from release_format import GUIDANCE, MANIFEST, ReleaseError, json_bytes, managed_path, safe_path, sha, strict_json, version_key
 from release_source import GitHubSource, NoRelease, SourceError, repository_identity
 
-REPOSITORY = 'Kassaddin/Agent'
-REQUIRED_SKILLS = {'backlog', 'project-context', 'create-skill', 'fix', 'glossary', 'implement', 'init', 'orchestrator', 'refine', 'search', 'setup', 'smokes', 'to-document', 'to-tasks', 'update'}
+REPOSITORY = 'Kassaddin/Agents'
+REQUIRED_SKILLS = {
+    'backlog', 'create-skill', 'elevated-rights', 'fix', 'glossary', 'implement',
+    'init', 'orchestrator', 'project-context', 'refine', 'search', 'setup',
+    'smokes', 'to-document', 'to-tasks', 'update',
+}
 JOURNAL = '.agents/state/setup/journal.json'
 LOCK = '.agents/state/setup/lock'
 RECEIPT = shared.RECEIPT
@@ -141,7 +145,10 @@ class Installer:
         shared.validate_content(candidate)
         if candidate['manifest']['layout_version'] != 3:
             raise ReleaseError('Setup requires the canonical Agents/.agents layout; this published release needs a newer compatible package')
-        if not REQUIRED_SKILLS <= set(candidate['manifest']['skills']) or not GUIDANCE <= set(candidate['files']):
+        required_skills = REQUIRED_SKILLS
+        if version_key(candidate['manifest']['version'])[0] < (2, 3, 0):
+            required_skills = required_skills - {'elevated-rights'}
+        if not required_skills <= set(candidate['manifest']['skills']) or not GUIDANCE <= set(candidate['files']):
             raise ReleaseError('Release is not the complete kit supported by this Setup version')
         if candidate['identity'].get('repository', '').casefold() != REPOSITORY.casefold():
             raise ReleaseError('Published identity differs from the fixed Setup source')
