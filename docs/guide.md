@@ -84,6 +84,7 @@ All skills follow the [shared question and assumption rules](../.agents/skills/i
 | `$create-skill` | Refined, approved, authored, and validated project-specific skills outside the managed kit |
 | `$search` | Located evidence with explicit coverage and limitations |
 | `$google` | Quick cited public web answers based on at least two identifiable search engines when available |
+| `$research` | An initial research brief for user feedback, followed by in-depth cited findings |
 | `$to-document` | A faithful document after substantive gaps are resolved |
 | `$to-tasks` | Bounded tasks traced to a documented scope and its agreed parent baseline |
 | `$smokes` | An actionable audit report without source corrections |
@@ -106,6 +107,11 @@ Use [Google](../.agents/skills/google/SKILL.md) for a quick public web answer to
 topic or question. Use [Search](../.agents/skills/search/SKILL.md) to locate
 evidence in authorized project sources. Google names the engines it reached and
 states any search or evidence limits.
+
+Use [Research](../.agents/skills/research/SKILL.md) for an in-depth investigation.
+Research scans the topic and shares a brief for your feedback before it verifies
+claims and follows gaps through successive rounds of investigation. It returns
+cited findings in chat or uses To Document for a requested document.
 
 ## Coordinate work in one chat
 
@@ -275,7 +281,7 @@ recursively deletes the host or silently reuses an occupied destination.
 
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v2.4.0`, then publish that same tag
+Build with an explicit tag such as `--version v2.5.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

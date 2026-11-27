@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research"
+  short_description: "Refine a research brief and verify findings"
+  default_prompt: "Use $research to investigate my question in depth, starting with a brief I can review."

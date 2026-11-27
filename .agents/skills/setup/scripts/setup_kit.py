@@ -24,7 +24,7 @@ REQUIRED_SKILLS = {
     'init', 'orchestrator', 'project-context', 'refine', 'search', 'setup',
     'smokes', 'to-document', 'to-tasks', 'update',
 }
-SKILL_INTRODUCTIONS = {'elevated-rights': (2, 3, 0), 'google': (2, 4, 0)}
+SKILL_INTRODUCTIONS = {'elevated-rights': (2, 3, 0), 'google': (2, 4, 0), 'research': (2, 5, 0)}
 JOURNAL = '.agents/state/setup/journal.json'
 LOCK = '.agents/state/setup/lock'
 RECEIPT = shared.RECEIPT

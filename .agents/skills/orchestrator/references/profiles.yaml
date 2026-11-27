@@ -45,5 +45,6 @@ skill_profiles:
   create-skill: Standard
   to-document: Standard
   refine: Demanding
+  research: Demanding
   to-tasks: Demanding
   smokes: Demanding

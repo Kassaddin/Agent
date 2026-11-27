@@ -62,16 +62,18 @@ class ReleaseTests(unittest.TestCase):
                 self.assertEqual(standalone.read('setup/' + relative), source)
             self.assertIn(NEGATIVE_FIXTURE, standalone.read('setup/tests/test_setup.py'))
 
-    def test_google_is_managed_and_listed_in_the_released_skill_catalog(self):
-        pack_release.build(self.root, 'v2.4.0')
+    def test_google_and_research_are_managed_and_listed_in_the_released_skill_catalog(self):
+        pack_release.build(self.root, 'v2.5.0')
         releases = self.root / 'releases'
         kit = unpack((releases / 'agent-skills.zip').read_bytes(),
-                     (releases / 'agent-skills.zip.sha256').read_bytes(), 'v2.4.0')
-        self.assertIn('google', kit['manifest']['skills'])
-        for name in ('SKILL.md', 'agents/openai.yaml'):
-            path = '.agents/skills/google/' + name
-            self.assertEqual(kit['files'][path], (self.root / path).read_bytes())
-        self.assertIn(b'| `$google` |', kit['files']['.agents/instructions.md'])
+                     (releases / 'agent-skills.zip.sha256').read_bytes(), 'v2.5.0')
+        for skill in ('google', 'research'):
+            with self.subTest(skill=skill):
+                self.assertIn(skill, kit['manifest']['skills'])
+                for name in ('SKILL.md', 'agents/openai.yaml'):
+                    path = f'.agents/skills/{skill}/{name}'
+                    self.assertEqual(kit['files'][path], (self.root / path).read_bytes())
+                self.assertIn(f'| `${skill}` |'.encode(), kit['files']['.agents/instructions.md'])
         with zipfile.ZipFile(releases / 'setup.zip') as standalone:
             self.assertTrue(all(name.startswith('setup/') for name in standalone.namelist()))
 

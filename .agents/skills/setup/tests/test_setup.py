@@ -202,20 +202,23 @@ class SetupTests(unittest.TestCase):
         )
         self.assertEqual(installer.plan('v2.3.0')['status'], 'ready')
 
-    def test_v24_requires_google_and_keeps_v23_compatible(self):
+    def test_releases_require_skills_from_their_introduction_version(self):
         installer = self.installer()
         self.source.payload['.agents/skills/elevated-rights/SKILL.md'] = (
             b'---\nname: elevated-rights\ndescription: Fixture skill.\n---\n\n# Fixture\n'
         )
         self.assertEqual(installer.plan('v2.3.0')['status'], 'ready')
-        with self.assertRaisesRegex(ReleaseError, 'not the complete kit'):
-            installer.plan('v2.4.0')
-        self.source.payload['.agents/skills/google/SKILL.md'] = (
-            b'---\nname: google\ndescription: Fixture skill.\n---\n\n# Fixture\n'
-        )
-        plan = installer.plan('v2.4.0')
-        self.assertEqual(plan['status'], 'ready')
-        self.assertIn('.agents/skills/google/SKILL.md', plan['additions'])
+        for version, skill in (('v2.4.0', 'google'), ('v2.5.0', 'research')):
+            with self.subTest(version=version, skill=skill):
+                with self.assertRaisesRegex(ReleaseError, 'not the complete kit'):
+                    installer.plan(version)
+                path = f'.agents/skills/{skill}/SKILL.md'
+                self.source.payload[path] = (
+                    f'---\nname: {skill}\ndescription: Fixture skill.\n---\n\n# Fixture\n'.encode()
+                )
+                plan = installer.plan(version)
+                self.assertEqual(plan['status'], 'ready')
+                self.assertIn(path, plan['additions'])
 
     def test_retired_context_package_does_not_replace_project_context(self):
         self.source.payload.pop('.agents/skills/project-context/SKILL.md')

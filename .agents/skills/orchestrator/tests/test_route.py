@@ -36,9 +36,10 @@ class RoutingTests(unittest.TestCase):
         self.assertEqual(routing.route(self.config, 'implement')['profile'], 'Standard')
         self.assertEqual(routing.route(self.config, 'refine')['profile'], 'Demanding')
 
-    def test_google_uses_standard_while_search_uses_routine(self):
-        self.assertEqual(routing.route(self.config, 'google')['profile'], 'Standard')
-        self.assertEqual(routing.route(self.config, 'search')['profile'], 'Routine')
+    def test_evidence_workflows_use_their_default_profiles(self):
+        for skill, profile in (('search', 'Routine'), ('google', 'Standard'), ('research', 'Demanding')):
+            with self.subTest(skill=skill):
+                self.assertEqual(routing.route(self.config, skill)['profile'], profile)
 
     def test_complex_search_can_select_stronger_initial_profile(self):
         result = routing.route(self.config, 'search', profile='Demanding')

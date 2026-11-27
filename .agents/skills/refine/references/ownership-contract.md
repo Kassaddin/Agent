@@ -18,6 +18,7 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Backlog | Captured project backlog entries, their provenance, and capture/deduplication consistency |
 | Search | Retrieved evidence, verified locators, and retrieval coverage |
 | Google | Public web answers, claim support, and search-engine coverage |
+| Research | Working research briefs, evidence evaluation, and cited findings |
 | To Document | Document composition, faithful representation, and delivery completeness |
 | To Tasks | Task decomposition, task boundaries, requirement coverage, and dependency consistency |
 | Smokes | Audit findings, evidence, classifications, and coverage |

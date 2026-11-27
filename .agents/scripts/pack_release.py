@@ -16,7 +16,7 @@ from bundle_setup import bundle
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills/update/scripts"))
 from release_format import MANIFEST, make_manifest, json_bytes
 
-PACKAGES = ("backlog", "project-context", "create-skill", "elevated-rights", "fix", "glossary", "google", "implement", "init", "orchestrator", "refine", "search", "setup", "smokes", "to-document", "to-tasks", "update")
+PACKAGES = ("backlog", "project-context", "create-skill", "elevated-rights", "fix", "glossary", "google", "implement", "init", "orchestrator", "refine", "research", "search", "setup", "smokes", "to-document", "to-tasks", "update")
 EXCLUDED = {"__pycache__", ".pytest_cache", ".git", ".venv", "node_modules"}
 EXTENSIONS = {".md", ".yaml", ".yml", ".json", ".py", ".txt"}
 SETUP_PATH = "Agents/.agents/skills/setup/"
