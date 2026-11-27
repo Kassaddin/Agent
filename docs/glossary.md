@@ -1,6 +1,6 @@
 # Glossary: Agent Skills
 
-Scope: Shared terminology of this project's sixteen reusable skills: `orchestrator`, `setup`, `init`, `elevated-rights`, `glossary`, `refine`, `backlog`, `implement`, `create-skill`, `search`, `to-document`, `to-tasks`, `smokes`, `fix`, `project-context`, and `update`. Definitions apply to their access, discussion, backlog-capture, implementation, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
+Scope: Shared terminology of this project's managed skills. Definitions apply to their access, discussion, backlog-capture, implementation, web research, document, task-decomposition, audit, correction, project-context, kit-installation, and kit-update workflows across topics.
 
 Agreed terms reflect explicit discussion agreements or meanings already specified in the approved skill contracts. Proposed terms are definitions inferred from current usage; their labels or boundaries still need agreement. Operational procedures and project decisions remain in the skills and `BOUNDARIES.yaml`.
 

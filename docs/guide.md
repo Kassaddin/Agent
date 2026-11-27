@@ -83,6 +83,7 @@ All skills follow the [shared question and assumption rules](../.agents/skills/i
 | `$implement` | Direct execution and verification of an agreed small-task Refine baseline |
 | `$create-skill` | Refined, approved, authored, and validated project-specific skills outside the managed kit |
 | `$search` | Located evidence with explicit coverage and limitations |
+| `$google` | Quick cited public web answers based on at least two identifiable search engines when available |
 | `$to-document` | A faithful document after substantive gaps are resolved |
 | `$to-tasks` | Bounded tasks traced to a documented scope and its agreed parent baseline |
 | `$smokes` | An actionable audit report without source corrections |
@@ -100,6 +101,11 @@ location, pass the chosen agent area explicitly to helpers that need it.
 
 Existing host instructions are reused. Any integration pointer added to them
 requires an explicit, narrowly scoped change. The kit does not overwrite them.
+
+Use [Google](../.agents/skills/google/SKILL.md) for a quick public web answer to a
+topic or question. Use [Search](../.agents/skills/search/SKILL.md) to locate
+evidence in authorized project sources. Google names the engines it reached and
+states any search or evidence limits.
 
 ## Coordinate work in one chat
 
@@ -269,7 +275,7 @@ recursively deletes the host or silently reuses an occupied destination.
 
 ## Produce a compatible release
 
-Build with an explicit tag such as `--version v2.3.0`, then publish that same tag
+Build with an explicit tag such as `--version v2.4.0`, then publish that same tag
 with both `agent-skills.zip` and `agent-skills.zip.sha256` as release assets.
 Publication is performed by the user. The repository metadata version alone is
 not evidence of a published release. Keep historical assets available while

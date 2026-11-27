@@ -35,6 +35,7 @@ skill_profiles:
   search: Routine
   backlog: Routine
   glossary: Standard
+  google: Standard
   project-context: Standard
   init: Standard
   setup: Standard

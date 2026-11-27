@@ -17,6 +17,7 @@ Apply this contract when resolving substantive content choices across skills, ma
 | Create Skill | Project-local skill authoring, supporting resources, and validation; host registration remains separate |
 | Backlog | Captured project backlog entries, their provenance, and capture/deduplication consistency |
 | Search | Retrieved evidence, verified locators, and retrieval coverage |
+| Google | Public web answers, claim support, and search-engine coverage |
 | To Document | Document composition, faithful representation, and delivery completeness |
 | To Tasks | Task decomposition, task boundaries, requirement coverage, and dependency consistency |
 | Smokes | Audit findings, evidence, classifications, and coverage |

@@ -1,4 +1,4 @@
-"""Exercise repository and private-path checks in the actual release producer."""
+"""Exercise release inventories, repository checks, and private-path checks."""
 from pathlib import Path
 import shutil
 import sys
@@ -9,6 +9,7 @@ import zipfile
 SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
 import pack_release
+from release_format import unpack
 
 
 SETUP = '.agents/skills/setup/'
@@ -24,7 +25,7 @@ REVIEWED = {
 NEGATIVE_FIXTURE = b"self.source.repository = 'Kassaddin/Agent'"
 
 
-class ReleasePrivacyTests(unittest.TestCase):
+class ReleaseTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
@@ -60,6 +61,19 @@ class ReleasePrivacyTests(unittest.TestCase):
                 self.assertEqual(kit.read('Agents/' + SETUP + relative), source)
                 self.assertEqual(standalone.read('setup/' + relative), source)
             self.assertIn(NEGATIVE_FIXTURE, standalone.read('setup/tests/test_setup.py'))
+
+    def test_google_is_managed_and_listed_in_the_released_skill_catalog(self):
+        pack_release.build(self.root, 'v2.4.0')
+        releases = self.root / 'releases'
+        kit = unpack((releases / 'agent-skills.zip').read_bytes(),
+                     (releases / 'agent-skills.zip.sha256').read_bytes(), 'v2.4.0')
+        self.assertIn('google', kit['manifest']['skills'])
+        for name in ('SKILL.md', 'agents/openai.yaml'):
+            path = '.agents/skills/google/' + name
+            self.assertEqual(kit['files'][path], (self.root / path).read_bytes())
+        self.assertIn(b'| `$google` |', kit['files']['.agents/instructions.md'])
+        with zipfile.ZipFile(releases / 'setup.zip') as standalone:
+            self.assertTrue(all(name.startswith('setup/') for name in standalone.namelist()))
 
     def test_repository_collisions_in_every_reviewed_context_are_rejected(self):
         for relative, literals in REVIEWED.items():
